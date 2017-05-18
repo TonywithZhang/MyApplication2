@@ -44,8 +44,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         Item item = items.get(position);
-        Glide.with(context).load(item.getItemImage()).into(holder.getCircleImageView());
-        //holder.getCircleImageView().setImageResource(item.getItemImage());
+        //Glide.with(context).load(item.getItemImage()).into(holder.getCircleImageView());
+        holder.getCircleImageView().setImageResource(item.getItemImage());
         holder.getItemName().setText(item.getPartNumber());
         holder.getItemVersion().setText(item.getVersion());
         holder.getItemModified().setText(item.getLastModified());

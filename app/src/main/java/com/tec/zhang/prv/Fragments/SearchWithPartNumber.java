@@ -1,6 +1,7 @@
 package com.tec.zhang.prv.Fragments;
 
 import android.animation.ValueAnimator;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -137,7 +138,7 @@ public class SearchWithPartNumber extends Fragment {
                 });
                 recyclerView.setAdapter(itemAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                initData();
+                new RunBackground().execute();
             }
         });
 
@@ -168,7 +169,6 @@ public class SearchWithPartNumber extends Fragment {
             Item item  = new Item(detail.getPartNumber() + " for " + detail.getProjectNumber(),"供应商：\n" + detail.getSupplier(),"工程成本：\n" + detail.getEngineeringCost(),selectPic(detail.getPartNumber()));
             items.add(item);
         }
-        itemAdapter.notifyDataSetChanged();
     }
 
     private void recgnizeThat(){
@@ -226,10 +226,22 @@ public class SearchWithPartNumber extends Fragment {
         for (String picName : pictures.keySet()){
             if (picName.contains(name)){
                 return pictures.get(picName);
-            }else{
-                return cars[random.nextInt(5)];
             }
         }
-        return R.mipmap.ic_launcher_round;
+        return cars[random.nextInt(5)];
+    }
+    private class RunBackground extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            initData();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            itemAdapter.notifyDataSetChanged();
+        }
     }
 }
