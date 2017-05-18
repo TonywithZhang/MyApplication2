@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/find_by_number"
+        android:textSize="25sp"
+        android:textColor="@color/colorAccent"
+         />
+    <MultiAutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadingEdgeLength="3sp"
+        android:completionThreshold="1"
+        android:dropDownSelector="@drawable/ic_action_book"
+        android:id="@+id/find_by_number"
+        android:hint="@string/part_number"
+        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.jiang.android.pbutton.CProgressButton
+            android:id="@+id/progress_button"
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            app:drawable_xml="@drawable/bounder"
+            android:text="@string/looking_for"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_margin="30sp"
+            android:textSize="15sp"
+            app:radius="30sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="#00000000"
+            android:text="@string/search_immediate"
+            android:textSize="30sp"/>
+    </FrameLayout>
+
+</LinearLayout>

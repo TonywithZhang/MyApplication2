@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MyOwnStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="elasticDrawerStyle">@style/Widget.AppCompat.DrawerArrowToggle</item>
+    </style>
+    <style name="flowing" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        <item name="elasticDrawerStyle">@style/Widget.AppCompat.DrawerArrowToggle</item>
+    </style>
+</resources>

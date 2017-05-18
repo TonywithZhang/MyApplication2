@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="find_by_performance">按照性能查找</string>
+    <string name="auto_select">自动选型</string>
+    <string name="check_for">查找信息</string>
+    <string name="please_input_project_name">请输入要查询的项目名称</string>
+    <string name="looking_for">查找</string>
+    <string name="part_number">请输入要查询的零件号</string>
+    <string name="search_immediate">立即查询</string>
+    <string name="part_name">零件名称</string>
+    <string name="version_code">版本号</string>
+    <string name="latest_modified">最新修改日期</string>
+    <string name="sond_listening">语音识别</string>
+    <string name="perfotmancce_number">请输入要查询的性能指标</string>
+</resources>
