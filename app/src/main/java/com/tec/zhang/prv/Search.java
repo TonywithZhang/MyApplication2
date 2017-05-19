@@ -64,6 +64,7 @@ public class Search extends BaseActivity {
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=590daa60");
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
+
         title = (TextView) findViewById(R.id.title_all);
         title.setText(getResources().getString(R.string.check_for));
         manager = getSupportFragmentManager();
