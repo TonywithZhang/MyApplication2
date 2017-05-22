@@ -42,8 +42,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ItemViewHolder holder, int position) {
-        Item item = items.get(position);
+    public void onBindViewHolder(final ItemViewHolder holder, int position) {
+        final Item item = items.get(position);
         //Glide.with(context).load(item.getItemImage()).into(holder.getCircleImageView());
         holder.getCircleImageView().setImageResource(item.getItemImage());
         holder.getItemName().setText(item.getPartNumber());
@@ -53,25 +53,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.getCircleImageView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemsClickListener.onPictureClick();
+                    onItemsClickListener.onPictureClick(item.getItemImage(),item.getPartNumber());
                 }
             });
             holder.getItemName().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemsClickListener.onNameClick();
+                    onItemsClickListener.onNameClick(holder.getItemName().toString());
                 }
             });
             holder.getItemVersion().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemsClickListener.onVersionClick();
+                    onItemsClickListener.onVersionClick(holder.getItemVersion().toString());
                 }
             });
             holder.getItemModified().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemsClickListener.onDateClick();
+                    onItemsClickListener.onDateClick(holder.getItemModified().toString());
                 }
             });
         }
@@ -129,9 +129,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         }
     }
     public interface OnItemsClickListener{
-        void onNameClick();
-        void onPictureClick();
-        void onVersionClick();
-        void onDateClick();
+        void onNameClick(String name);
+        void onPictureClick(int imageView,String number);
+        void onVersionClick(String version);
+        void onDateClick(String date);
     }
 }

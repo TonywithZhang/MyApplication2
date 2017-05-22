@@ -1,11 +1,15 @@
 package com.tec.zhang.prv.Fragments;
 
 import android.animation.ValueAnimator;
+import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,12 +17,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +63,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 
 import static android.content.ContentValues.TAG;
@@ -84,6 +94,7 @@ public class SearchWithPartNumber extends Fragment {
             R.drawable.ic_buzhiming
     };
     public static LinkedHashMap<String,Integer> pictures;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -117,22 +128,42 @@ public class SearchWithPartNumber extends Fragment {
                 items = new ArrayList<>();
                 itemAdapter = new ItemAdapter(getContext(), items, new ItemAdapter.OnItemsClickListener() {
                     @Override
-                    public void onNameClick() {
+                    public void onNameClick(String name) {
 
                     }
 
                     @Override
-                    public void onPictureClick() {
+                    public void onPictureClick(final int imageView,final String carnum) {
+                        final PopupWindow popupWindow = new PopupWindow(getContext());
+                        final View view = LayoutInflater.from(getContext()).inflate(R.layout.popup_window,null);
+                        final ImageView carImage = (ImageView) view.findViewById(R.id.car_picture);
+                        carImage.setImageResource(imageView);
+                        view.setOnTouchListener(new View.OnTouchListener(){
+                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                changeOrExit(carnum,popupWindow,view,carImage,event);
+                                return false;
+                            }
+                        });
+                        popupWindow.setContentView(view);
+                        popupWindow.setBackgroundDrawable(new ColorDrawable(0xb0808080));
+                        popupWindow.setFocusable(true);
+                        popupWindow.setOutsideTouchable(true);
+                        popupWindow.setWidth(getActivity().getWindow().getDecorView().getWidth());
+                        popupWindow.setHeight(getActivity().getWindow().getDecorView().getHeight());
+                        popupWindow.showAsDropDown(view);
+                        Log.d(TAG, "onPictureClick: 弹出窗口任务执行了一次");
+                        popupWindow.showAtLocation(view, Gravity.CENTER,0,0);
+                    }
+
+                    @Override
+                    public void onVersionClick(String version) {
 
                     }
 
                     @Override
-                    public void onVersionClick() {
-
-                    }
-
-                    @Override
-                    public void onDateClick() {
+                    public void onDateClick(String date) {
 
                     }
                 });
@@ -157,6 +188,17 @@ public class SearchWithPartNumber extends Fragment {
         pictures.put("prv26204448",R.drawable.ic_prv26204448);
         pictures.put("prv26265005",R.drawable.ic_prv26265005);
         pictures.put("prv90921822",R.drawable.ic_prv90921822);
+        pictures.put("prv5492105s",R.drawable.ic_prv5492105s);
+        pictures.put("prv9076499s",R.drawable.ic_prv9076499s);
+        pictures.put("prv13502347s",R.drawable.ic_prv13502347s);
+        pictures.put("prv13502348s",R.drawable.ic_prv13502348s);
+        pictures.put("prv13502349s",R.drawable.ic_prv13502349s);
+        pictures.put("prv13588034s",R.drawable.ic_prv13588034s);
+        pictures.put("prv13597326s",R.drawable.ic_prv13597326s);
+        pictures.put("prv22788177s",R.drawable.ic_prv22788177s);
+        pictures.put("prv26204448s",R.drawable.ic_prv26204448s);
+        pictures.put("prv26265005s",R.drawable.ic_prv26265005s);
+        pictures.put("prv90921822s",R.drawable.ic_prv90921822s);
         List<PartDetail> details = DataSupport.select("partNumber","supplier","engineeringCost","projectNumber").find(PartDetail.class);
         for (PartDetail detail : details){
             if (detail.getPartNumber().length() > 8){
@@ -221,6 +263,7 @@ public class SearchWithPartNumber extends Fragment {
         }
         multiAutoCompleteTextView.setText(resultBuffer.toString().substring(0,resultBuffer.toString().length()-1));
         multiAutoCompleteTextView.setSelection(multiAutoCompleteTextView.length());
+
     }
     private int selectPic(String name){
         for (String picName : pictures.keySet()){
@@ -243,5 +286,50 @@ public class SearchWithPartNumber extends Fragment {
             super.onPostExecute(aVoid);
             itemAdapter.notifyDataSetChanged();
         }
+    }
+    private int count = 0;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void changeOrExit(String name,final PopupWindow popupWindow,final View view,final ImageView carImage,final MotionEvent event){
+        switch (count){
+            case 0:
+                Log.d(TAG, "changeOrExit: " + "prv" + name + "s");
+                carImage.setImageResource(pictures.get("prv" + name.split(" ")[0] + "s"));
+                count ++;
+                break;
+            case 1:
+                ViewAnimationUtils.createCircularReveal(view,carImage.getWidth()/2,carImage.getHeight()/2,Math.max(carImage.getHeight(),carImage.getWidth()),0).setDuration(1000).start();
+                new CountDownTimer(1000,100){
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        popupWindow.dismiss();
+                    }
+                }.start();
+                count  --;
+                break;
+        }
+        int height = carImage.getTop();
+        int low = carImage.getBottom();
+        if (event.getY() < height || event.getY() > low){
+            ViewAnimationUtils.createCircularReveal(view,carImage.getWidth()/2,carImage.getHeight()/2,Math.max(carImage.getHeight(),carImage.getWidth()),0).setDuration(1000).start();
+            new CountDownTimer(1000,100){
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    popupWindow.dismiss();
+                }
+            }.start();
+        }
+    }
+    private void refreshList(String partName){
+
     }
 }
