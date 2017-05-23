@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
-
+    android:layout_height="match_parent">
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="3sp">
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
@@ -13,8 +15,9 @@
         android:text="@string/find_by_performance"
         android:textSize="25sp"
         android:textColor="@color/colorAccent"
-         />
+        />
     <LinearLayout
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <MultiAutoCompleteTextView
@@ -35,6 +38,8 @@
             android:text="@string/sond_listening"
             android:gravity="center"/>
     </LinearLayout>
+</android.support.v7.widget.CardView>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

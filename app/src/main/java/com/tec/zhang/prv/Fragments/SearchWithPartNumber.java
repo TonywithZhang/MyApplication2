@@ -202,11 +202,7 @@ public class SearchWithPartNumber extends Fragment {
         List<PartDetail> details = DataSupport.select("partNumber","supplier","engineeringCost","projectNumber").find(PartDetail.class);
         for (PartDetail detail : details){
             if (detail.getPartNumber().length() > 8){
-                if (detail.getPartNumber().contains("per")) {
-                    detail.setPartNumber(detail.getPartNumber().substring(detail.getPartNumber().length() - 9,detail.getPartNumber().length() - 1));
-                } else {
-                    detail.setPartNumber(detail.getPartNumber().substring(detail.getPartNumber().length() - 8,detail.getPartNumber().length() - 1));
-                }
+                detail.setPartNumber(detail.getPartNumber().substring(0,8));
             }
             Item item  = new Item(detail.getPartNumber() + " for " + detail.getProjectNumber(),"供应商：\n" + detail.getSupplier(),"工程成本：\n" + detail.getEngineeringCost(),selectPic(detail.getPartNumber()));
             items.add(item);
@@ -271,6 +267,7 @@ public class SearchWithPartNumber extends Fragment {
                 return pictures.get(picName);
             }
         }
+        Log.d(TAG, "selectPic: " + name);
         return cars[random.nextInt(5)];
     }
     private class RunBackground extends AsyncTask<Void,Void,Void>{
