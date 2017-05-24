@@ -1,6 +1,8 @@
 package com.tec.zhang.prv.recyler;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.tec.zhang.prv.R;
+import com.tec.zhang.prv.databaseUtil.PartDetail;
+
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 /**
@@ -15,6 +19,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder>{
+    private static final String TAG = "适配器";
     private Context context;
     private List<Item> items;
     private OnItemsClickListener onItemsClickListener;
@@ -59,19 +64,22 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.getItemName().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemsClickListener.onNameClick(holder.getItemName().toString());
+                    onItemsClickListener.onNameClick(holder.getItemName().getText().toString());
                 }
             });
             holder.getItemVersion().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemsClickListener.onVersionClick(holder.getItemVersion().toString());
+                    onItemsClickListener.onVersionClick(holder.getItemName().getText().toString());
                 }
+            });
+            holder.getCardView().setOnClickListener(v -> {
+                onItemsClickListener.onItemClick(item.getPartNumber());
             });
             holder.getItemModified().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemsClickListener.onDateClick(holder.getItemModified().toString());
+                    onItemsClickListener.onDateClick(holder.getItemName().getText().toString());
                 }
             });
         }
@@ -83,6 +91,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder{
+        private View cardView;
+
+        public View getCardView() {
+            return cardView;
+        }
+
+        public void setCardView(View cardView) {
+            this.cardView = cardView;
+        }
+
         private CircleImageView circleImageView;
         private TextView itemName;
         private TextView itemVersion;
@@ -122,6 +140,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         public ItemViewHolder(View view){
             super(view);
+            this.cardView  = view.findViewById(R.id.card_rec);
             this.circleImageView = (CircleImageView) view.findViewById(R.id.item_image);
             this.itemName = (TextView) view.findViewById(R.id.part_name);
             this.itemVersion = (TextView) view.findViewById(R.id.version);
@@ -129,6 +148,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         }
     }
     public interface OnItemsClickListener{
+        void onItemClick(String partNum);
         void onNameClick(String name);
         void onPictureClick(int imageView,String number);
         void onVersionClick(String version);

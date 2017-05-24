@@ -33,6 +33,7 @@
     -->
     <list>
         <mapping class="com.tec.zhang.prv.databaseUtil.PartDetail"/>
+        <mapping class="com.tec.zhang.prv.databaseUtil.LineData"/>
     </list>
 
     <!--

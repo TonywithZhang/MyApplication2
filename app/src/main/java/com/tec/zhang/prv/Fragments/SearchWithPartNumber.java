@@ -2,6 +2,7 @@ package com.tec.zhang.prv.Fragments;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -40,6 +41,7 @@ import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.jiang.android.pbutton.CProgressButton;
 import com.tec.zhang.prv.JsonParser;
+import com.tec.zhang.prv.PartDetails;
 import com.tec.zhang.prv.R;
 import com.tec.zhang.prv.databaseUtil.PartDetail;
 import com.tec.zhang.prv.recyler.Item;
@@ -129,7 +131,7 @@ public class SearchWithPartNumber extends Fragment {
                 itemAdapter = new ItemAdapter(getContext(), items, new ItemAdapter.OnItemsClickListener() {
                     @Override
                     public void onNameClick(String name) {
-
+                        showDetail(name);
                     }
 
                     @Override
@@ -165,6 +167,11 @@ public class SearchWithPartNumber extends Fragment {
                     @Override
                     public void onDateClick(String date) {
 
+                    }
+
+                    @Override
+                    public void onItemClick(String partNum) {
+                        showDetail(partNum);
                     }
                 });
                 recyclerView.setAdapter(itemAdapter);
@@ -328,5 +335,11 @@ public class SearchWithPartNumber extends Fragment {
     }
     private void refreshList(String partName){
 
+    }
+    private void showDetail(String s){
+        Intent intent = new Intent(getActivity(), PartDetails.class);
+        intent.putExtra("part_num",s.substring(0,s.indexOf(" ")));
+        Log.d(TAG, "onBindViewHolder: 创建表格任务执行一次");
+        getActivity().startActivity(intent);
     }
 }

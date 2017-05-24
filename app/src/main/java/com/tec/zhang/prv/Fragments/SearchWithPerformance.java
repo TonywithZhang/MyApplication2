@@ -1,5 +1,6 @@
 package com.tec.zhang.prv.Fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -126,6 +127,7 @@ public class SearchWithPerformance extends Fragment {
         numbers.toArray(columns);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.support_simple_spinner_dropdown_item,columns);
         editText.setAdapter(adapter);
+        editText.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         searchWithSound = (Button) view.findViewById(R.id.performance_listen);
         recyclerView = (RecyclerView) view.findViewById(R.id.performance_list);
         confirm = (FloatingActionButton) view.findViewById(check_now);
@@ -170,6 +172,14 @@ public class SearchWithPerformance extends Fragment {
             @Override
             public void onDateClick(String date) {
 
+            }
+
+            @Override
+            public void onItemClick(String partNum) {
+                Intent intent = new Intent(getActivity(), PartDetail.class);
+                intent.putExtra("partNum",partNum);
+                Log.d(TAG, "onBindViewHolder: 创建表格任务执行一次");
+                getActivity().startActivity(intent);
             }
         });
         recyclerView.setAdapter(itemAdapter);

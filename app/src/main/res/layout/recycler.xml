@@ -6,6 +6,7 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="5sp"
     android:layout_margin="5sp"
+    android:id="@+id/card_rec"
     android:layout_height="wrap_content">
     <LinearLayout
         android:showDividers="middle"

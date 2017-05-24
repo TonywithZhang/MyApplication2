@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.dalong.countdownview.CountDownView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.tec.zhang.prv.databaseUtil.LineData;
 import com.tec.zhang.prv.databaseUtil.PartDetail;
 
 import org.json.JSONArray;
@@ -84,6 +85,9 @@ public class MainActivity extends BaseActivity {
         if (DataSupport.findAll(PartDetail.class).size() == 0){
             Log.d(TAG, "onCreate: 数据库为空");
             importData();
+        }
+        if (DataSupport.findAll(LineData.class).size() == 0){
+            importChart();
         }else Log.d(TAG, "onCreate: 数据库不为空，且长度为" + DataSupport.findAll(PartDetail.class).size());
     }
 
@@ -142,11 +146,44 @@ public class MainActivity extends BaseActivity {
                 detail.save();
                 Log.d(TAG, "importData: 导入成功一条");
             }
+            bufferedReader.close();
+            is.close();
             Toasty.info(this,"数据库创建成功！", Toast.LENGTH_SHORT).show();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-
-
+    }
+    private void importChart(){
+        try {
+            InputStream is = getResources().getAssets().open("hvac_chart.json");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+            String content = null;
+            while((content = br.readLine()) != null){
+                sb.append(content);
+            }
+            JSONObject jo = new JSONObject(sb.toString());
+            JSONArray  ja = jo.getJSONArray("data");
+            for (int i = 0;i<ja.length() ; i ++){
+                JSONObject item = ja.getJSONObject(i);
+                LineData data = new LineData();
+                data.setPartNum(item.getString("partNumber"));
+                data.setX0(item.getString("0"));
+                data.setX25(item.getString("25"));
+                data.setX50(item.getString("50"));
+                data.setX75(item.getString("75"));
+                data.setX100(item.getString("100"));
+                data.setX125(item.getString("125"));
+                data.setX150(item.getString("150"));
+                data.setX175(item.getString("175"));
+                data.setX200(item.getString("200"));
+                data.save();
+            }
+            br.close();
+            is.close();
+            Log.d(TAG, "importChart: " + DataSupport.findAll(LineData.class).size());
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

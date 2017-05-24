@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tec.zhang.prv.PartDetail">
+    <tech.linjiang.suitlines.SuitLines
+        android:layout_width="match_parent"
+        android:layout_height="250sp"
+        xmlns:line="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/suitlines"
+        line:xySize="8"
+        line:xyColor="@color/colorAccent"
+        line:lineType="curve"
+        line:needEdgeEffect="true"
+        line:colorEdgeEffect="@color/colorPrimaryDark"
+        line:needClickHint="true"
+        line:colorHint="@color/colorPrimary"
+        line:maxOfVisible="7"
+        line:countOfY="6"
+        />
+</RelativeLayout>

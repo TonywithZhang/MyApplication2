@@ -32,7 +32,7 @@ public class SearchWithProjectNumber extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_with_project_number,container,false);
-        textView = (TextView) view.findViewById(R.id.notice1);
+        textView = (TextView) view.findViewById(R.id.textView3);
         multiAutoCompleteTextView = (MultiAutoCompleteTextView) view.findViewById(R.id.auto_complete);
         words = new String[]{
                 "1","2","3","12","13","14","15","16"
