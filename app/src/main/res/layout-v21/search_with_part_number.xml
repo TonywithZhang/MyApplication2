@@ -58,6 +58,7 @@
             android:id="@+id/recycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:scrollbarStyle="outsideInset"
             android:scrollbars="vertical"/>
         <android.support.design.widget.FloatingActionButton

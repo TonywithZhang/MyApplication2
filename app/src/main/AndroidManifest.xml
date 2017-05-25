@@ -49,7 +49,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyOwnStyle" />
         />
-        <activity android:name=".PartDetails"/>
+        <activity android:name=".PartDetails"
+            android:screenOrientation="portrait"
+            android:icon="@color/black"
+            android:theme="@style/MyOwnStyle"/>
+        <activity
+            android:name=".Abandon"
+            android:label="@string/title_activity_abandon"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

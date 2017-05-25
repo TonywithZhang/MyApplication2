@@ -50,7 +50,6 @@ public class Search extends BaseActivity {
     private FragmentManager manager;
     private FragmentTransaction ft;
     private SelectAutomation selectAutomation;
-
     private FlowingDrawer flowingDrawer;
     private NavigationView navi;
     private View header;

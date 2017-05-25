@@ -14,6 +14,7 @@
         android:layout_height="wrap_content">
         <android.support.design.widget.CollapsingToolbarLayout
             android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
@@ -37,31 +38,32 @@
                     android:gravity="center"
                     />
             </android.support.v7.widget.Toolbar>
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                app:tabSelectedTextColor="#ff0000"
+                android:layout_marginTop="70sp"
+                app:tabTextColor="#00ff00"
+                app:layout_collapseMode="pin"
+                app:tabIndicatorColor="#ffff00"
+                />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:tabSelectedTextColor="#ff0000"
-            app:tabTextColor="#00ff00"
-            app:tabIndicatorColor="#ffff00"
-           />
         <android.support.v4.view.ViewPager
             android:id="@+id/pagers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
 
-    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

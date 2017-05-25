@@ -1,6 +1,7 @@
 package com.tec.zhang.prv.Fragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
+import com.tec.zhang.prv.Abandon;
 import com.tec.zhang.prv.R;
 
 /**
@@ -46,7 +48,9 @@ public class SearchWithProjectNumber extends Fragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmCheck();
+                //confirmCheck();
+                Intent intent = new Intent(getActivity(), Abandon.class);
+                startActivity(intent);
             }
         });
         return view;

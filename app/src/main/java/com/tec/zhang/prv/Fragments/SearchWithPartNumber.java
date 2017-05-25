@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -338,8 +339,9 @@ public class SearchWithPartNumber extends Fragment {
     }
     private void showDetail(String s){
         Intent intent = new Intent(getActivity(), PartDetails.class);
-        intent.putExtra("part_num",s.substring(0,s.indexOf(" ")));
+        intent.putExtra("part_num",s);
         Log.d(TAG, "onBindViewHolder: 创建表格任务执行一次");
         getActivity().startActivity(intent);
+
     }
 }

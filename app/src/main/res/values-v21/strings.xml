@@ -13,4 +13,19 @@
     <string name="sond_listening">语音识别</string>
     <string name="perfotmancce_number">请输入要查询的性能指标</string>
     <string name="xieyafatupian">泄压阀图片</string>
+    <string name="part_num">零件号：</string>
+    <string name="project_num">项目号：</string>
+    <string name="cost">工程成本：</string>
+    <string name="supplier">供应商：</string>
+    <string name="air_flow">整车风量：</string>
+    <string name="total_vehicle_num">整车号：</string>
+    <string name="body_icd">接口特征描述：</string>
+    <string name="unit">每辆车消耗数量：</string>
+    <string name="frame_material">框架材料：</string>
+    <string name="flap_material">空调片材料：</string>
+    <string name="seal_material">密封圈材料：</string>
+    <string name="performance_curve">性能曲线：</string>
+    <string name="mass">单个重量：</string>
+    <string name="l_s">单位：L/s</string>
+    <string name="pa">单位：Pa</string>
 </resources>

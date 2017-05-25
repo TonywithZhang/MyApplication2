@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.tec.zhang.prv.Abandon"
+    tools:showIn="@layout/details">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/performance_curve" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
+            android:layout_marginStart="5sp"
+            android:text="@string/l_s"/>
+        <tech.linjiang.suitlines.SuitLines
+            xmlns:line="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:id="@+id/suitline"
+            android:layout_height="250sp"
+            line:xySize="8"
+            line:xyColor="@color/colorAccent"
+            line:lineType="curve"
+            line:needEdgeEffect="true"
+            line:colorEdgeEffect="@color/colorPrimaryDark"
+            line:needClickHint="true"
+            line:colorHint="@color/colorPrimary"
+            line:maxOfVisible="7"
+            line:countOfY="6"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="5sp"
+            android:text="@string/pa"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/project_num" />
+        <TextView
+            android:id="@+id/detail_project"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/cost" />
+        <TextView
+            android:id="@+id/detail_cost"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/mass" />
+        <TextView
+            android:id="@+id/detail_mass"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/supplier" />
+        <TextView
+            android:id="@+id/detail_supplier"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/air_flow" />
+        <TextView
+            android:id="@+id/detail_air_flow"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/total_vehicle_num" />
+        <TextView
+            android:id="@+id/vehicle_num"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/body_icd" />
+        <TextView
+            android:id="@+id/detail_body_icd"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/unit" />
+        <TextView
+            android:id="@+id/detail_unit"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/frame_material" />
+        <TextView
+            android:id="@+id/detail_frame_material"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/flap_material" />
+        <TextView
+            android:id="@+id/detail_flap_material"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+        <TextView
+            android:textSize="25sp"
+            android:textColor="#E066FF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/seal_material" />
+        <TextView
+            android:id="@+id/detail_seal_material"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+
+
+</android.support.v4.widget.NestedScrollView>
