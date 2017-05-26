@@ -132,6 +132,7 @@ public class MainActivity extends BaseActivity {
             for(int i = 0;i < ja.length() ; i ++){
                 JSONObject  jsonObject = ja.getJSONObject(i);
                 PartDetail detail = new PartDetail();
+                detail.setHvacNo(jsonObject.optString("hvac_id"));
                 detail.setPartNumber(jsonObject.optString("PN"));
                 detail.setProjectNumber(jsonObject.optString("Program"));
                 detail.setEngineeringCost(jsonObject.optString("Cost"));

@@ -10,6 +10,8 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +37,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.tec.zhang.prv.JsonParser;
+import com.tec.zhang.prv.PartDetails;
 import com.tec.zhang.prv.R;
 import com.tec.zhang.prv.databaseUtil.PartDetail;
 import com.tec.zhang.prv.recyler.Item;
@@ -136,7 +139,7 @@ public class SearchWithPerformance extends Fragment {
         itemAdapter = new ItemAdapter(getContext(),items,new ItemAdapter.OnItemsClickListener() {
             @Override
             public void onNameClick(String name) {
-
+                showDetail(name);
             }
 
             @Override
@@ -166,12 +169,12 @@ public class SearchWithPerformance extends Fragment {
 
             @Override
             public void onVersionClick(String version) {
-
+                showDetail(version);
             }
 
             @Override
             public void onDateClick(String date) {
-
+                showDetail(date);
             }
 
             @Override
@@ -190,7 +193,7 @@ public class SearchWithPerformance extends Fragment {
         Random random = new Random(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.CHINA);
         for (int i = 0 ; i< 20 ; i ++){
-            Item item = new Item("" + System.currentTimeMillis(),random.nextInt(50)+ "","" + format.format(new Date(random.nextLong())),cars[random.nextInt(5)]);
+            Item item = new Item(random.nextFloat() + "","" + System.currentTimeMillis(),random.nextInt(50)+ "","" + format.format(new Date(random.nextLong())),cars[random.nextInt(5)]);
             list.add(item);
         }
         return list;
@@ -309,12 +312,12 @@ public class SearchWithPerformance extends Fragment {
         pictures.put("prv26204448s",R.drawable.ic_prv26204448s);
         pictures.put("prv26265005s",R.drawable.ic_prv26265005s);
         pictures.put("prv90921822s",R.drawable.ic_prv90921822s);
-        List<PartDetail> details = DataSupport.select("partNumber","supplier","engineeringCost","projectNumber").find(PartDetail.class);
+        List<PartDetail> details = DataSupport.select("hvacNo","partNumber","supplier","engineeringCost","projectNumber").find(PartDetail.class);
         for (PartDetail detail : details){
             if (detail.getPartNumber().length() > 8){
                 detail.setPartNumber(detail.getPartNumber().substring(0,8));
             }
-            Item item  = new Item(detail.getPartNumber() + " for " + detail.getProjectNumber(),"供应商：\n" + detail.getSupplier(),"工程成本：\n" + detail.getEngineeringCost(),selectPic(detail.getPartNumber()));
+            Item item  = new Item(detail.getHvacNo(),detail.getPartNumber() + " for " + detail.getProjectNumber(),"供应商：\n" + detail.getSupplier(),"工程成本：\n" + detail.getEngineeringCost(),selectPic(detail.getPartNumber()));
             items.add(item);
         }
     }
@@ -341,5 +344,11 @@ public class SearchWithPerformance extends Fragment {
             super.onPostExecute(aVoid);
             itemAdapter.notifyDataSetChanged();
         }
+    }
+    private void showDetail(String s){
+        Intent intent = new Intent(getActivity(), PartDetails.class);
+        intent.putExtra("part_num",s);
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),itemAdapter.getImageView(),getString(R.string.image));
+        ActivityCompat.startActivity(getActivity(),intent,compat.toBundle());
     }
 }

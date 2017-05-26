@@ -133,6 +133,7 @@ public class SearchWithPartNumber extends Fragment {
                 itemAdapter = new ItemAdapter(getContext(), items, new ItemAdapter.OnItemsClickListener() {
                     @Override
                     public void onNameClick(String name) {
+                        Log.d(TAG, "onNameClick: " + name);
                         showDetail(name);
                     }
 
@@ -163,12 +164,12 @@ public class SearchWithPartNumber extends Fragment {
 
                     @Override
                     public void onVersionClick(String version) {
-
+                        showDetail(version);
                     }
 
                     @Override
                     public void onDateClick(String date) {
-
+                        showDetail(date);
                     }
 
                     @Override
@@ -208,12 +209,12 @@ public class SearchWithPartNumber extends Fragment {
         pictures.put("prv26204448s",R.drawable.ic_prv26204448s);
         pictures.put("prv26265005s",R.drawable.ic_prv26265005s);
         pictures.put("prv90921822s",R.drawable.ic_prv90921822s);
-        List<PartDetail> details = DataSupport.select("partNumber","supplier","engineeringCost","projectNumber").find(PartDetail.class);
+        List<PartDetail> details = DataSupport.select("hvacNo","partNumber","supplier","engineeringCost","projectNumber").find(PartDetail.class);
         for (PartDetail detail : details){
             if (detail.getPartNumber().length() > 8){
                 detail.setPartNumber(detail.getPartNumber().substring(0,8));
             }
-            Item item  = new Item(detail.getPartNumber() + " for " + detail.getProjectNumber(),"供应商：\n" + detail.getSupplier(),"工程成本：\n" + detail.getEngineeringCost(),selectPic(detail.getPartNumber()));
+            Item item  = new Item(detail.getHvacNo(),detail.getPartNumber() + " for " + detail.getProjectNumber(),"供应商：\n" + detail.getSupplier(),"工程成本：\n" + detail.getEngineeringCost(),selectPic(detail.getPartNumber()));
             items.add(item);
         }
     }
@@ -343,7 +344,5 @@ public class SearchWithPartNumber extends Fragment {
         intent.putExtra("part_num",s);
         ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),itemAdapter.getImageView(),getString(R.string.image));
         ActivityCompat.startActivity(getActivity(),intent,compat.toBundle());
-        //getActivity().startActivity(intent);
-
     }
 }

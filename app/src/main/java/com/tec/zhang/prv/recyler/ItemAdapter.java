@@ -67,13 +67,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 @Override
                 public void onClick(View v) {
                     imageView = holder.getCircleImageView();
-                    onItemsClickListener.onNameClick(holder.getItemName().getText().toString());
+                    onItemsClickListener.onNameClick(item.getId());
                 }
             });
             holder.getItemVersion().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemsClickListener.onVersionClick(holder.getItemName().getText().toString());
+                    imageView = holder.getCircleImageView();
+                    onItemsClickListener.onVersionClick(item.getId());
                 }
             });
             holder.getCardView().setOnClickListener(v -> {
@@ -82,7 +83,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.getItemModified().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemsClickListener.onDateClick(holder.getItemName().getText().toString());
+                    imageView = holder.getCircleImageView();
+                    onItemsClickListener.onDateClick(item.getId());
                 }
             });
         }

@@ -5,13 +5,24 @@ package com.tec.zhang.prv.recyler;
  */
 
 public class Item {
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     private String partNumber;
     private String version;
     private String lastModified;
     private int itemImage;
     public Item(){}
 
-    public Item(String partNumber, String version, String lastModified, int itemImage) {
+    public Item(String id,String partNumber, String version, String lastModified, int itemImage) {
+        this.id = id;
         this.partNumber = partNumber;
         this.version = version;
         this.lastModified = lastModified;

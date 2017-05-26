@@ -10,6 +10,15 @@ import java.util.Map;
  */
 
 public class PartDetail extends DataSupport {
+    public String getHvacNo() {
+        return hvacNo;
+    }
+
+    public void setHvacNo(String hvacNo) {
+        this.hvacNo = hvacNo;
+    }
+
+    private String hvacNo;
     //零件号
     private String partNumber;
     //项目号，或者整车号

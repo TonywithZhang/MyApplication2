@@ -42,17 +42,25 @@ public class PartDetails extends AppCompatActivity {
         suitLines.setLineSize(3f);
         Intent intent = getIntent();
         String partNum = intent.getStringExtra("part_num");
-        setTitle(partNum);
-        String simpleNum = partNum.substring(0,partNum.indexOf(" "));
         Log.d(TAG, "onCreate: " + partNum);
-        setupPic(simpleNum);
-        floatingActionButton.setOnClickListener(v->changeAnotherPic(simpleNum));
-        LineData lineData = DataSupport.where("partNum=?",simpleNum).findFirst(LineData.class);
-        if (lineData != null) {
-            showSuitLine(lineData);
+        PartDetail detail = DataSupport.where("hvacNo like ?","%" +partNum + "%").findFirst(PartDetail.class);
+        Log.d(TAG, "onCreate: detail 是否为空：" + (detail ==null) + "simpleNum = "+ partNum);
+        if (detail != null) {
+            Log.d(TAG, "onCreate: " + detail.getPartNumber());
+            String simpleNum = detail.getPartNumber();
+            if (simpleNum.length() > 8) {
+                simpleNum = detail.getPartNumber().substring(0,detail.getPartNumber().indexOf(" "));
+            }
+            setupPic(simpleNum);
+            setTitle(simpleNum + " for " + detail.getProjectNumber());
+            String finalSimpleNum = simpleNum;
+            floatingActionButton.setOnClickListener(v->changeAnotherPic(finalSimpleNum));
+            LineData lineData = DataSupport.where("partNum=?",simpleNum).findFirst(LineData.class);
+            if (lineData != null) {
+                showSuitLine(lineData);
+            }
+            setDetailText(detail);
         }
-        PartDetail detail = DataSupport.where("partNumber=?",simpleNum).findFirst(PartDetail.class);
-        setDetailText(detail);
     }
     private void  showSuitLine(LineData lineData){
         List<Unit> list= new ArrayList<>();
