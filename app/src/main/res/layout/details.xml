@@ -25,6 +25,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
             <ImageView
                 android:id="@+id/detail_pic"
+                android:transitionName="@string/image"
                 android:layout_width="match_parent"
                 android:contentDescription="@string/app_name"
                 android:layout_height="match_parent" />
