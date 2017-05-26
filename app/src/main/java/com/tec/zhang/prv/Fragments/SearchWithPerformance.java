@@ -124,7 +124,7 @@ public class SearchWithPerformance extends Fragment {
         List<PartDetail> details = DataSupport.select("vehicleAirflow").find(PartDetail.class);
         List<String> numbers = new ArrayList<>();
         for (PartDetail detail : details){
-            numbers.add(detail.getPartNumber());
+            numbers.add(detail.getVehicleAirflow());
         }
         columns = new String[details.size()];
         numbers.toArray(columns);
@@ -303,6 +303,7 @@ public class SearchWithPerformance extends Fragment {
         pictures.put("prv90921822",R.drawable.ic_prv90921822);
         pictures.put("prv5492105s",R.drawable.ic_prv5492105s);
         pictures.put("prv9076499s",R.drawable.ic_prv9076499s);
+
         pictures.put("prv13502347s",R.drawable.ic_prv13502347s);
         pictures.put("prv13502348s",R.drawable.ic_prv13502348s);
         pictures.put("prv13502349s",R.drawable.ic_prv13502349s);
