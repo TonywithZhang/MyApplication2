@@ -124,4 +124,5 @@
     <string name="l_s">单位：L/s</string>
     <string name="pa">单位：Pa</string>
     <string name="image">image</string>
+    <string name="dimension">零件尺寸：</string>
 </resources>

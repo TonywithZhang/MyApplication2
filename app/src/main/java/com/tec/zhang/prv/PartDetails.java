@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.tec.zhang.prv.databaseUtil.LineData;
 import com.tec.zhang.prv.databaseUtil.PartDetail;
+import com.tec.zhang.prv.databaseUtil.PartDimension;
 
 import org.litepal.crud.DataSupport;
 
@@ -31,7 +32,7 @@ public class PartDetails extends AppCompatActivity {
     private ImageView detailPic;
     private FloatingActionButton floatingActionButton;
     private LinkedHashMap<String,Integer> pictures;
-    private TextView detailProject,detailCost,detailMass,detailSupplier,detailAirFlow,detailVehicleNum,detailBodyICD,detailUnit,detailFrameMaterial,detailFlipMaterial,detailSealMaterial;
+    private TextView detailDimension,detailProject,detailCost,detailMass,detailSupplier,detailAirFlow,detailVehicleNum,detailBodyICD,detailUnit,detailFrameMaterial,detailFlipMaterial,detailSealMaterial;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,7 @@ public class PartDetails extends AppCompatActivity {
         detailSupplier = (TextView) findViewById(R.id.detail_supplier);
         detailVehicleNum = (TextView) findViewById(R.id.vehicle_num);
         detailUnit = (TextView) findViewById(R.id.detail_unit);
+        detailDimension = (TextView) findViewById(R.id.detail_dimension);
     }
     private void setupPic(String name){
         pictures = new LinkedHashMap<>();
@@ -161,6 +163,8 @@ public class PartDetails extends AppCompatActivity {
         detailSupplier.setText(detail.getSupplier());
         detailCost.setText(detail.getEngineeringCost());
         detailProject.setText(detail.getProjectNumber());
+        PartDimension dimension  = DataSupport.findFirst(PartDimension.class);
+        detailDimension.setText(dimension.getLength() + " * " + dimension.getWidth() + " * " + dimension.getHeight());
     }
     private void changeWithAnimation(ImageView imageview,int imageID){
         ValueAnimator animal = ValueAnimator.ofFloat(1.0f,0.0f,1.0f);

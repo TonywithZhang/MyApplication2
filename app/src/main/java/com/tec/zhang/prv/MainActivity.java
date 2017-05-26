@@ -18,6 +18,7 @@ import com.dalong.countdownview.CountDownView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.tec.zhang.prv.databaseUtil.LineData;
 import com.tec.zhang.prv.databaseUtil.PartDetail;
+import com.tec.zhang.prv.databaseUtil.PartDimension;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,6 +83,10 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         },3000);*/
+        if (DataSupport.findAll(PartDimension.class).size() == 0){
+            Log.d(TAG, "onCreate: 导入 尺寸数据");
+            importDimension();
+        }
         if (DataSupport.findAll(PartDetail.class).size() == 0){
             Log.d(TAG, "onCreate: 数据库为空");
             importData();
@@ -183,6 +188,31 @@ public class MainActivity extends BaseActivity {
             br.close();
             is.close();
             Log.d(TAG, "importChart: " + DataSupport.findAll(LineData.class).size());
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void importDimension(){
+        try {
+            InputStream is = getAssets().open("dimension.json");
+            StringBuilder json = new StringBuilder();
+            String  buffer = null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            while((buffer = br.readLine()) != null){
+                json.append(buffer);
+            }
+            JSONObject  jo  = new JSONObject(json.toString());
+            JSONArray ja = jo.optJSONArray("data");
+            for (int i = 0; i < ja.length() ; i ++){
+                JSONObject jsonObject = ja.getJSONObject(i);
+                PartDimension dimension = new PartDimension();
+                dimension.setLength(jsonObject.getString("length"));
+                dimension.setWidth(jsonObject.getString("width"));
+                dimension.setHeight(jsonObject.getString("height"));
+                dimension.save();
+            }
+            br.close();
+            is.close();
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }

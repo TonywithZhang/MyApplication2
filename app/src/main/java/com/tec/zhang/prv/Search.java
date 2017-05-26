@@ -75,7 +75,7 @@ public class Search extends BaseActivity {
         navi = (NavigationView) flowingDrawer.findViewById(R.id.navi);
         header = flowingDrawer.findViewById(R.id.header);
         navi.setNavigationItemSelectedListener(navigationItemSelectedListener);
-
+        flowingDrawer.openMenu(true);
         requestForPermission();
         createFolder();
     }
