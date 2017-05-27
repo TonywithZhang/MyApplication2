@@ -112,7 +112,7 @@ public class SearchWithPerformance extends Fragment {
         view = inflater.inflate(R.layout.search_with_performance,container,false);
         activity = getActivity();
         searchWithSound  = (Button) view.findViewById(R.id.performance_listen);
-        searchWithSound.setOnClickListener(v -> recgnizeThat());
+        searchWithSound.setOnClickListener(this :: recognizeThat);
         init();
         setList();
         service = Executors.newSingleThreadExecutor();
@@ -203,7 +203,7 @@ public class SearchWithPerformance extends Fragment {
         return list;
     }
 
-    private void recgnizeThat(){
+    private void recognizeThat(View view){
         RecognizerDialog mDialog = new RecognizerDialog(activity, initListener);
         //2.设置accent、language等参数
         mDialog.setParameter(SpeechConstant.LANGUAGE,"zh_cn");

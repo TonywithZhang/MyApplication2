@@ -172,6 +172,7 @@ public class SearchWithProjectNumber extends Fragment {
         multiAutoCompleteTextView.setAdapter(adapter);
         multiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         searchWithSound = (Button) view.findViewById(R.id.project_listen);
+        searchWithSound.setOnClickListener(this :: recgnizeThat);
         recyclerView = (RecyclerView) view.findViewById(R.id.project_recycle);
     }
     private void setList(){
@@ -336,7 +337,7 @@ public class SearchWithProjectNumber extends Fragment {
         }
     }
 
-    private void recgnizeThat(){
+    private void recgnizeThat(View view){
         RecognizerDialog mDialog = new RecognizerDialog(activity, initListener);
         //2.设置accent、language等参数
         mDialog.setParameter(SpeechConstant.LANGUAGE,"zh_cn");
