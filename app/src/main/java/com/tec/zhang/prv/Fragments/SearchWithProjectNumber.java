@@ -1,5 +1,6 @@
 package com.tec.zhang.prv.Fragments;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -73,6 +74,7 @@ import static com.tec.zhang.prv.R.id.check_now;
  */
 
 public class SearchWithProjectNumber extends Fragment {
+    private Activity activity;
     private View view;
     private TextView textView;
     private MultiAutoCompleteTextView multiAutoCompleteTextView;
@@ -110,6 +112,7 @@ public class SearchWithProjectNumber extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.search_with_project_number,container,false);
         textView = (TextView) view.findViewById(R.id.textView3);
+        activity = getActivity();
         init();
         setList();
         service = Executors.newSingleThreadExecutor();
@@ -196,8 +199,8 @@ public class SearchWithProjectNumber extends Fragment {
                 popupWindow.setBackgroundDrawable(new ColorDrawable(0xb0808080));
                 popupWindow.setFocusable(true);
                 popupWindow.setOutsideTouchable(true);
-                popupWindow.setWidth(getActivity().getWindow().getDecorView().getWidth());
-                popupWindow.setHeight(getActivity().getWindow().getDecorView().getHeight());
+                popupWindow.setWidth(activity.getWindow().getDecorView().getWidth());
+                popupWindow.setHeight(activity.getWindow().getDecorView().getHeight());
                 popupWindow.showAsDropDown(view);
                 Log.d(TAG, "onPictureClick: 弹出窗口任务执行了一次");
                 popupWindow.showAtLocation(view, Gravity.CENTER,0,0);
@@ -215,10 +218,11 @@ public class SearchWithProjectNumber extends Fragment {
 
             @Override
             public void onItemClick(String partNum) {
-                Intent intent = new Intent(getActivity(), PartDetail.class);
+                showDetail(partNum);
+                /*Intent intent = new Intent(getActivity(), PartDetail.class);
                 intent.putExtra("partNum",partNum);
                 Log.d(TAG, "onBindViewHolder: 创建表格任务执行一次");
-                getActivity().startActivity(intent);
+                getActivity().startActivity(intent);*/
             }
         });
         recyclerView.setAdapter(itemAdapter);
@@ -284,10 +288,10 @@ public class SearchWithProjectNumber extends Fragment {
         }
     }
     private void showDetail(String s){
-        Intent intent = new Intent(getActivity(), PartDetails.class);
+        Intent intent = new Intent(activity, PartDetails.class);
         intent.putExtra("part_num",s);
-        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),itemAdapter.getImageView(),getString(R.string.image));
-        ActivityCompat.startActivity(getActivity(),intent,compat.toBundle());
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,itemAdapter.getImageView(),getString(R.string.image));
+        ActivityCompat.startActivity(activity,intent,compat.toBundle());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -333,7 +337,7 @@ public class SearchWithProjectNumber extends Fragment {
     }
 
     private void recgnizeThat(){
-        RecognizerDialog mDialog = new RecognizerDialog(getActivity(), initListener);
+        RecognizerDialog mDialog = new RecognizerDialog(activity, initListener);
         //2.设置accent、language等参数
         mDialog.setParameter(SpeechConstant.LANGUAGE,"zh_cn");
         mDialog.setParameter(SpeechConstant.ACCENT,"mandarin");

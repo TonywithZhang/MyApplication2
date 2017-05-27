@@ -1,5 +1,6 @@
 package com.tec.zhang.prv.Fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -39,6 +40,7 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.tec.zhang.prv.JsonParser;
 import com.tec.zhang.prv.PartDetails;
 import com.tec.zhang.prv.R;
+import com.tec.zhang.prv.databaseUtil.LineData;
 import com.tec.zhang.prv.databaseUtil.PartDetail;
 import com.tec.zhang.prv.recyler.Item;
 import com.tec.zhang.prv.recyler.ItemAdapter;
@@ -70,6 +72,7 @@ import static com.tec.zhang.prv.R.id.check_now;
  */
 
 public class SearchWithPerformance extends Fragment {
+    private Activity activity;
     private View view;
     private TextView textView;
     private MultiAutoCompleteTextView editText;
@@ -107,7 +110,7 @@ public class SearchWithPerformance extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.search_with_performance,container,false);
-
+        activity = getActivity();
         searchWithSound  = (Button) view.findViewById(R.id.performance_listen);
         searchWithSound.setOnClickListener(v -> recgnizeThat());
         init();
@@ -121,10 +124,10 @@ public class SearchWithPerformance extends Fragment {
         items = new ArrayList<>();
         textView = (TextView) view.findViewById(R.id.textView4);
         editText = (MultiAutoCompleteTextView) view.findViewById(R.id.check_by_performance);
-        List<PartDetail> details = DataSupport.select("vehicleAirflow").find(PartDetail.class);
+        List<LineData> details = DataSupport.select("x75").find(LineData.class);
         List<String> numbers = new ArrayList<>();
-        for (PartDetail detail : details){
-            numbers.add(detail.getVehicleAirflow());
+        for (LineData detail : details){
+            numbers.add(detail.getX75().substring(0,5));
         }
         columns = new String[details.size()];
         numbers.toArray(columns);
@@ -160,8 +163,8 @@ public class SearchWithPerformance extends Fragment {
                 popupWindow.setBackgroundDrawable(new ColorDrawable(0xb0808080));
                 popupWindow.setFocusable(true);
                 popupWindow.setOutsideTouchable(true);
-                popupWindow.setWidth(getActivity().getWindow().getDecorView().getWidth());
-                popupWindow.setHeight(getActivity().getWindow().getDecorView().getHeight());
+                popupWindow.setWidth(activity.getWindow().getDecorView().getWidth());
+                popupWindow.setHeight(activity.getWindow().getDecorView().getHeight());
                 popupWindow.showAsDropDown(view);
                 Log.d(TAG, "onPictureClick: 弹出窗口任务执行了一次");
                 popupWindow.showAtLocation(view, Gravity.CENTER,0,0);
@@ -179,10 +182,11 @@ public class SearchWithPerformance extends Fragment {
 
             @Override
             public void onItemClick(String partNum) {
-                Intent intent = new Intent(getActivity(), PartDetail.class);
+                showDetail(partNum);
+                /*Intent intent = new Intent(activity, PartDetail.class);
                 intent.putExtra("partNum",partNum);
                 Log.d(TAG, "onBindViewHolder: 创建表格任务执行一次");
-                getActivity().startActivity(intent);
+                activity.startActivity(intent);*/
             }
         });
         recyclerView.setAdapter(itemAdapter);
@@ -200,7 +204,7 @@ public class SearchWithPerformance extends Fragment {
     }
 
     private void recgnizeThat(){
-        RecognizerDialog mDialog = new RecognizerDialog(getActivity(), initListener);
+        RecognizerDialog mDialog = new RecognizerDialog(activity, initListener);
         //2.设置accent、language等参数
         mDialog.setParameter(SpeechConstant.LANGUAGE,"zh_cn");
         mDialog.setParameter(SpeechConstant.ACCENT,"mandarin");
@@ -347,9 +351,9 @@ public class SearchWithPerformance extends Fragment {
         }
     }
     private void showDetail(String s){
-        Intent intent = new Intent(getActivity(), PartDetails.class);
+        Intent intent = new Intent(activity, PartDetails.class);
         intent.putExtra("part_num",s);
-        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),itemAdapter.getImageView(),getString(R.string.image));
-        ActivityCompat.startActivity(getActivity(),intent,compat.toBundle());
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,itemAdapter.getImageView(),getString(R.string.image));
+        ActivityCompat.startActivity(activity,intent,compat.toBundle());
     }
 }

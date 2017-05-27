@@ -1,6 +1,7 @@
 package com.tec.zhang.prv.Fragments;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -79,6 +80,7 @@ import static android.content.ContentValues.TAG;
  */
 
 public class SearchWithPartNumber extends Fragment {
+    private  Activity activity;
     private TextView textView;
     private MultiAutoCompleteTextView multiAutoCompleteTextView;
     private Button recgnize;
@@ -105,6 +107,7 @@ public class SearchWithPartNumber extends Fragment {
         View view = inflater.inflate(R.layout.search_with_part_number,container,false);
         textView = (TextView) view.findViewById(R.id.textView2);
         recgnize = (Button) view.findViewById(R.id.recgnize_sound);
+        activity = getActivity();
         recgnize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,8 +158,8 @@ public class SearchWithPartNumber extends Fragment {
                         popupWindow.setBackgroundDrawable(new ColorDrawable(0xb0808080));
                         popupWindow.setFocusable(true);
                         popupWindow.setOutsideTouchable(true);
-                        popupWindow.setWidth(getActivity().getWindow().getDecorView().getWidth());
-                        popupWindow.setHeight(getActivity().getWindow().getDecorView().getHeight());
+                        popupWindow.setWidth(activity.getWindow().getDecorView().getWidth());
+                        popupWindow.setHeight(activity.getWindow().getDecorView().getHeight());
                         popupWindow.showAsDropDown(view);
                         Log.d(TAG, "onPictureClick: 弹出窗口任务执行了一次");
                         popupWindow.showAtLocation(view, Gravity.CENTER,0,0);
@@ -221,7 +224,7 @@ public class SearchWithPartNumber extends Fragment {
     }
 
     private void recgnizeThat(){
-        RecognizerDialog mDialog = new RecognizerDialog(getActivity(), initListener);
+        RecognizerDialog mDialog = new RecognizerDialog(activity, initListener);
         //2.设置accent、language等参数
         mDialog.setParameter(SpeechConstant.LANGUAGE,"zh_cn");
         mDialog.setParameter(SpeechConstant.ACCENT,"mandarin");
@@ -341,9 +344,9 @@ public class SearchWithPartNumber extends Fragment {
 
     }
     private void showDetail(String s){
-        Intent intent = new Intent(getActivity(), PartDetails.class);
+        Intent intent = new Intent(activity, PartDetails.class);
         intent.putExtra("part_num",s);
-        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),itemAdapter.getImageView(),getString(R.string.image));
-        ActivityCompat.startActivity(getActivity(),intent,compat.toBundle());
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,itemAdapter.getImageView(),getString(R.string.image));
+        ActivityCompat.startActivity(activity,intent,compat.toBundle());
     }
 }
