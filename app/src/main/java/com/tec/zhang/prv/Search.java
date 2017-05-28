@@ -73,6 +73,7 @@ public class Search extends BaseActivity {
 
         flowingDrawer = (FlowingDrawer) findViewById(R.id.drawer_view);
         navi = (NavigationView) flowingDrawer.findViewById(R.id.navi);
+        navi.setCheckedItem(R.id.check_information);
         header = flowingDrawer.findViewById(R.id.header);
         navi.setNavigationItemSelectedListener(navigationItemSelectedListener);
         flowingDrawer.openMenu(true);
@@ -115,7 +116,7 @@ public class Search extends BaseActivity {
                     flowingDrawer.closeMenu(true);
                     break;
                 case R.id.check_information:
-                    navi.setCheckedItem(R.id.select_auto);
+                    navi.setCheckedItem(R.id.check_information);
                     showMainPage();
                     title.setText(getResources().getString(R.string.check_for));
                     flowingDrawer.closeMenu(true);

@@ -362,6 +362,7 @@ public class SearchWithProjectNumber extends Fragment {
         try {
             RandomAccessFile randomAccessFile  = new RandomAccessFile(record,"rw");
             randomAccessFile.write(results.getResultString().getBytes());
+            randomAccessFile.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

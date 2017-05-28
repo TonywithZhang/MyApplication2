@@ -3,12 +3,39 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
-
     <TextView
-        android:id="@+id/select_auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/select_auto"
-         />
+        android:layout_margin="16sp"
+        android:textSize="20sp"
+        android:text="@string/hvac_airflow_target"/>
+    <AutoCompleteTextView
+        android:inputType="number"
+        android:id="@+id/auto_airflow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/airflow_target"
+        android:completionThreshold="1"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16sp"
+        android:text="@string/unconrol_leakage_target"
+        android:textSize="20sp"/>
+    <AutoCompleteTextView
+        android:inputType="number"
+        android:id="@+id/auto_uncontrol_leakage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/auto_target"
+        android:completionThreshold="1"
+        />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/auto_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_forward"
+        android:layout_gravity="end"/>
 
 </LinearLayout>
