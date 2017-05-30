@@ -84,14 +84,10 @@ public class SearchWithPartNumber extends Fragment {
     private  Activity activity;
     private TextView textView;
     private MultiAutoCompleteTextView multiAutoCompleteTextView;
-    private Button recgnize;
-    private String[] columns;
     private RecyclerView recyclerView;
     private List<Item> items;
     private ItemAdapter itemAdapter;
     private Random random = new Random(System.currentTimeMillis());
-    private ExecutorService service;
-    private FloatingActionButton confirm;
 
     private int[] cars= new int[]{
             R.drawable.ic_baoma,
@@ -108,9 +104,9 @@ public class SearchWithPartNumber extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_with_part_number,container,false);
         textView = (TextView) view.findViewById(R.id.textView2);
-        recgnize = (Button) view.findViewById(R.id.recgnize_sound);
+        Button recgnize = (Button) view.findViewById(R.id.recgnize_sound);
         activity = getActivity();
-        confirm = (FloatingActionButton) view.findViewById(R.id.check_with_number);
+        FloatingActionButton confirm = (FloatingActionButton) view.findViewById(R.id.check_with_number);
         confirm.setOnClickListener(v -> {
             Log.d(TAG, "onCreateView: 原型按键被执行一次");
             String inputed = multiAutoCompleteTextView.getText().toString();
@@ -130,15 +126,15 @@ public class SearchWithPartNumber extends Fragment {
         for (PartDetail detail : details){
             numbers.add(detail.getPartNumber());
         }
-        columns = new String[details.size()];
+        String[] columns = new String[details.size()];
         numbers.toArray(columns);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.support_simple_spinner_dropdown_item,columns);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.support_simple_spinner_dropdown_item, columns);
         multiAutoCompleteTextView = (MultiAutoCompleteTextView) view.findViewById(R.id.find_by_number);
         multiAutoCompleteTextView.setAdapter(adapter);
         multiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle);
-        service = Executors.newSingleThreadExecutor();
+        ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(new Runnable() {
             @Override
             public void run() {

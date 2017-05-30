@@ -77,15 +77,12 @@ public class SearchWithProjectNumber extends Fragment {
     private Activity activity;
     private View view;
     private TextView textView;
-    private MultiAutoCompleteTextView multiAutoCompleteTextView;
+    private AutoCompleteTextView multiAutoCompleteTextView;
     private FloatingActionButton confirm;
-    private Button searchWithSound;
     private RecyclerView recyclerView;
-    private String[] columns;
     private List<Item> items;
     private ItemAdapter itemAdapter;
     private Random random = new Random(System.currentTimeMillis());
-    private ExecutorService service;
 
     public static LinkedHashMap<String,Integer> pictures;
 
@@ -115,7 +112,7 @@ public class SearchWithProjectNumber extends Fragment {
         activity = getActivity();
         init();
         setList();
-        service = Executors.newSingleThreadExecutor();
+        ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(() -> new RunBackground().execute());
 
         return view;
@@ -160,19 +157,19 @@ public class SearchWithProjectNumber extends Fragment {
         items = new ArrayList<>();
         confirm = (FloatingActionButton) view.findViewById(R.id.confirm);
         textView = (TextView) view.findViewById(R.id.textView3);
-        multiAutoCompleteTextView = (MultiAutoCompleteTextView) view.findViewById(R.id.auto_complete);
+        multiAutoCompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.auto_complete);
         List<PartDetail> details = DataSupport.select("projectNumber").find(PartDetail.class);
         List<String> numbers = new ArrayList<>();
         for (PartDetail detail : details){
             numbers.add(detail.getProjectNumber());
         }
-        columns = new String[details.size()];
+        String[] columns = new String[details.size()];
         numbers.toArray(columns);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.support_simple_spinner_dropdown_item,columns);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.support_simple_spinner_dropdown_item, columns);
         multiAutoCompleteTextView.setAdapter(adapter);
-        multiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-        searchWithSound = (Button) view.findViewById(R.id.project_listen);
-        searchWithSound.setOnClickListener(v -> recgnizeThat());
+        //multiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        Button searchWithSound = (Button) view.findViewById(R.id.project_listen);
+        //searchWithSound.setOnClickListener(v -> recgnizeThat());
         recyclerView = (RecyclerView) view.findViewById(R.id.project_recycle);
     }
     private void setList(){
@@ -255,14 +252,24 @@ public class SearchWithProjectNumber extends Fragment {
         pictures.put("prv26204448s",R.drawable.ic_prv26204448s);
         pictures.put("prv26265005s",R.drawable.ic_prv26265005s);
         pictures.put("prv90921822s",R.drawable.ic_prv90921822s);
+        LinkedHashMap<String,String> links = new LinkedHashMap<>();
         List<PartDetail> details = DataSupport.select("hvacNo","partNumber","supplier","engineeringCost","projectNumber").find(PartDetail.class);
         for (PartDetail detail : details){
+            links.put(detail.getHvacNo(),detail.getProjectNumber());
             if (detail.getPartNumber().length() > 8){
                 detail.setPartNumber(detail.getPartNumber().substring(0,8));
             }
             Item item  = new Item(detail.getHvacNo(),detail.getPartNumber() + " for " + detail.getProjectNumber(),"供应商：\n" + detail.getSupplier(),"工程成本：\n" + detail.getEngineeringCost(),selectPic(detail.getPartNumber()));
             items.add(item);
         }
+        confirm.setOnClickListener(v ->{
+            String inputed = multiAutoCompleteTextView.getText().toString();
+            links.keySet().stream().filter(name -> links.get(name).contains(inputed)).forEach(name -> {
+                Intent intent = new Intent(activity, PartDetails.class);
+                intent.putExtra("part_num", name);
+                activity.startActivity(intent);
+            });
+        });
     }
 
     private int selectPic(String name){

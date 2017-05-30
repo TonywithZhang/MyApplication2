@@ -127,9 +127,9 @@ public class SearchWithPerformance extends Fragment {
         List<LineData> partDetailList  = DataSupport.select("partNum","x75").find(LineData.class);
         keyValue = new LinkedHashMap<>();
         List<String> checkedNames = new ArrayList<>();
-        partDetailList.forEach(action -> {
-            keyValue.put(action.getPartNum(),action.getX75());
-        });
+        for (LineData line : partDetailList){
+            keyValue.put(line.getPartNum(),line.getX75());
+        }
         partDetailData = new LinkedHashMap<>();
         List<PartDetail> parts = DataSupport.select("hvacNo","partNumber").find(PartDetail.class);
         for (PartDetail detail : parts){
