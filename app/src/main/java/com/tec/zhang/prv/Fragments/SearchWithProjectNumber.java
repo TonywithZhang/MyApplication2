@@ -112,11 +112,9 @@ public class SearchWithProjectNumber extends Fragment {
         activity = getActivity();
         init();
         setList();
-        ExecutorService service = Executors.newSingleThreadExecutor();
-        service.execute(() -> new RunBackground().execute());
+        new RunBackground().execute();
 
         return view;
-
     }
 
     private void confirmCheck() {
@@ -169,7 +167,7 @@ public class SearchWithProjectNumber extends Fragment {
         multiAutoCompleteTextView.setAdapter(adapter);
         //multiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         Button searchWithSound = (Button) view.findViewById(R.id.project_listen);
-        //searchWithSound.setOnClickListener(v -> recgnizeThat());
+        searchWithSound.setOnClickListener(v -> recognizeThat());
         recyclerView = (RecyclerView) view.findViewById(R.id.project_recycle);
     }
     private void setList(){
@@ -344,7 +342,7 @@ public class SearchWithProjectNumber extends Fragment {
         }
     }
 
-    private void recgnizeThat(){
+    private void recognizeThat(){
         RecognizerDialog mDialog = new RecognizerDialog(activity, initListener);
         //2.设置accent、language等参数
         mDialog.setParameter(SpeechConstant.LANGUAGE,"zh_cn");

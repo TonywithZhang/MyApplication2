@@ -135,63 +135,59 @@ public class SearchWithPartNumber extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle);
         ExecutorService service = Executors.newSingleThreadExecutor();
-        service.execute(new Runnable() {
-            @Override
-            public void run() {
-                items = new ArrayList<>();
-                itemAdapter = new ItemAdapter(getContext(), items, new ItemAdapter.OnItemsClickListener() {
-                    @Override
-                    public void onNameClick(String name) {
-                        Log.d(TAG, "onNameClick: " + name);
-                        showDetail(name);
-                    }
+        service.execute(() -> {
+            items = new ArrayList<>();
+            itemAdapter = new ItemAdapter(getContext(), items, new ItemAdapter.OnItemsClickListener() {
+                @Override
+                public void onNameClick(String name) {
+                    Log.d(TAG, "onNameClick: " + name);
+                    showDetail(name);
+                }
 
-                    @Override
-                    public void onPictureClick(final int imageView,final String carnum) {
-                        final PopupWindow popupWindow = new PopupWindow(getContext());
-                        final View view = LayoutInflater.from(getContext()).inflate(R.layout.popup_window,null);
-                        final ImageView carImage = (ImageView) view.findViewById(R.id.car_picture);
-                        carImage.setImageResource(imageView);
-                        view.setOnTouchListener(new View.OnTouchListener(){
-                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                changeOrExit(carnum,popupWindow,view,carImage,event);
-                                return false;
-                            }
-                        });
-                        popupWindow.setContentView(view);
-                        popupWindow.setBackgroundDrawable(new ColorDrawable(0xb0808080));
-                        popupWindow.setFocusable(true);
-                        popupWindow.setOutsideTouchable(true);
-                        popupWindow.setWidth(activity.getWindow().getDecorView().getWidth());
-                        popupWindow.setHeight(activity.getWindow().getDecorView().getHeight());
-                        popupWindow.showAsDropDown(view);
-                        Log.d(TAG, "onPictureClick: 弹出窗口任务执行了一次");
-                        popupWindow.showAtLocation(view, Gravity.CENTER,0,0);
-                    }
+                @Override
+                public void onPictureClick(final int imageView,final String carnum) {
+                    final PopupWindow popupWindow = new PopupWindow(getContext());
+                    final View view1 = LayoutInflater.from(getContext()).inflate(R.layout.popup_window,null);
+                    final ImageView carImage = (ImageView) view1.findViewById(R.id.car_picture);
+                    carImage.setImageResource(imageView);
+                    view1.setOnTouchListener(new View.OnTouchListener(){
+                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            changeOrExit(carnum,popupWindow, view1,carImage,event);
+                            return false;
+                        }
+                    });
+                    popupWindow.setContentView(view1);
+                    popupWindow.setBackgroundDrawable(new ColorDrawable(0xb0808080));
+                    popupWindow.setFocusable(true);
+                    popupWindow.setOutsideTouchable(true);
+                    popupWindow.setWidth(activity.getWindow().getDecorView().getWidth());
+                    popupWindow.setHeight(activity.getWindow().getDecorView().getHeight());
+                    popupWindow.showAsDropDown(view1);
+                    Log.d(TAG, "onPictureClick: 弹出窗口任务执行了一次");
+                    popupWindow.showAtLocation(view1, Gravity.CENTER,0,0);
+                }
 
-                    @Override
-                    public void onVersionClick(String version) {
-                        showDetail(version);
-                    }
+                @Override
+                public void onVersionClick(String version) {
+                    showDetail(version);
+                }
 
-                    @Override
-                    public void onDateClick(String date) {
-                        showDetail(date);
-                    }
+                @Override
+                public void onDateClick(String date) {
+                    showDetail(date);
+                }
 
-                    @Override
-                    public void onItemClick(String partNum) {
-                        showDetail(partNum);
-                    }
-                });
-                recyclerView.setAdapter(itemAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                new RunBackground().execute();
-            }
+                @Override
+                public void onItemClick(String partNum) {
+                    showDetail(partNum);
+                }
+            });
+            recyclerView.setAdapter(itemAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         });
-
+        new RunBackground().execute();
         return view;
     }
     private void initData(){

@@ -83,7 +83,7 @@ public class SearchWithPerformance extends Fragment {
     private List<Item> items;
     private ItemAdapter itemAdapter;
     private Random random = new Random(System.currentTimeMillis());
-    private ExecutorService service;
+
     private LinkedHashMap<String,String>  keyValue,partDetailData;
     public static LinkedHashMap<String,Integer> pictures;
 
@@ -115,8 +115,7 @@ public class SearchWithPerformance extends Fragment {
         searchWithSound.setOnClickListener(v ->recognizeThat());
         init();
         setList();
-        service = Executors.newSingleThreadExecutor();
-        service.execute(() -> new RunBackground().execute());
+        new RunBackground().execute();
         return view;
     }
 
@@ -167,7 +166,6 @@ public class SearchWithPerformance extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.support_simple_spinner_dropdown_item,columns);
         editText.setAdapter(adapter);
         editText.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-        searchWithSound = (Button) view.findViewById(R.id.performance_listen);
         recyclerView = (RecyclerView) view.findViewById(R.id.performance_list);
         confirm = (FloatingActionButton) view.findViewById(check_now);
     }
