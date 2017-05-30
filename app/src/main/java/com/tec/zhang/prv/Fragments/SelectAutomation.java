@@ -41,59 +41,89 @@ import java.util.regex.Pattern;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by Administrator on 2017/4/28.
+ * 自动选型的页面
  */
 
 public class SelectAutomation extends Fragment {
+    //两个输入变量
     private AutoCompleteTextView airflow,leakage;
+    //住活动变量
     private Activity activity;
+    //视图2变量
     private View view;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.auto_select,container,false);
+        //从初始化布局
         initLayoutComponents();
         return view;
     }
     private void initLayoutComponents(){
+        //得到当前的主活动
         activity  = getActivity();
+        //实例化三个变脸
         airflow = (AutoCompleteTextView) view.findViewById(R.id.auto_airflow);
         leakage = (AutoCompleteTextView) view.findViewById(R.id.auto_uncontrol_leakage);
         FloatingActionButton confirm = (FloatingActionButton) view.findViewById(R.id.auto_confirm);
-
+        //得到以前输入的历史纪录
         List<LogInAutoCompute> autoComputes = DataSupport.findAll(LogInAutoCompute.class);
+        /**
+         * 根据书数量判断
+         * 如果不为空而且个数不等于零就执行操作
+         * */
         if (autoComputes != null && autoComputes.size() != 0){
+            //拿到历史记录的长度
             int length = autoComputes.size();
+            //第一个参数的历史纪录所组成成的数组
             String[] airflows = new String[length];
+            //第二个参数的历史纪录组成的数组
             String[] leakages = new String[length];
+            //遍历拿到的集合，将历史纪录 依次装填进创建的两个数组
             for (int i = 0; i < length ; i ++){
                 airflows[i] = autoComputes.get(i).getAirFlow();
                 leakages[i]  = autoComputes.get(i).getUncontrolLeakage();
             }
+            //设置两个自动填充组件的适配器
             airflow.setAdapter(new ArrayAdapter<String>(activity,R.layout.support_simple_spinner_dropdown_item,airflows));
             leakage.setAdapter(new ArrayAdapter<String>(activity,R.layout.support_simple_spinner_dropdown_item,leakages));
         }
+        //设置监听器
         confirm.setOnClickListener(this::showComputedResults);
     }
+    /**
+     * 显示计算结果的方法
+     * 根据用户输入的两个参数
+     * 然后根据公式计算结果
+     * */
     private void showComputedResults(View view){
+        //当用户按下按键的时候隐藏软键盘
         hideSoftKeyBoard(activity);
         Log.d(TAG, "showComputedResults: 按键触发一次" );
+        //判断是否两个参数都有值，当任意一个值为空的时候直接显示警告并退出方法
         if (airflow.getText().toString().length() == 0 || leakage.getText().toString().length() == 0){
             showWarn();
             return;
         }
 
         Log.d(TAG, "showComputedResults: " + airflow.getText().toString().length());
+        //拿到第一个输入的参数
         int inputAirflow = Integer.parseInt(airflow.getText().toString());
+        //拿到第二个输入的参数
         int inputLeakage = Integer.parseInt(leakage.getText().toString());
+        //将当前输入的参数存入数据库，方便下次直接点击
         LogInAutoCompute  autoCompute = new LogInAutoCompute();
         autoCompute.setAirFlow(inputAirflow + "");
         autoCompute.setUncontrolLeakage(inputLeakage + "");
         autoCompute.save();
+        //根据输入的值计算结果
         float  computeResult = (float) (Math.sqrt(25)/Math.sqrt(17)*inputAirflow - inputLeakage);
         Log.d(TAG, "showComputedResults: " + computeResult);
+        //创建一个map，key为所有的零件号，value为75pa下的整车风量
         LinkedHashMap<String,Float> resultSet = new LinkedHashMap<>();
+        //sql操作，拿到折线图中75pa下的数据
         List<LineData> lineDatas = DataSupport.select("partNum","x75").find(LineData.class);
+        //创建一个表，存储所有 75pa下的整车风量
         List<Float> performancesOn75Pa = new ArrayList<>();
         for (int i = 0 ;i < lineDatas.size() ; i ++){
             float resultFloat = Math.abs(Float.valueOf(lineDatas.get(i).getX75().substring(0,6)) - computeResult);
@@ -136,6 +166,7 @@ public class SelectAutomation extends Fragment {
         final PopupWindow window = new PopupWindow(activity);
         final View resultWindow = LayoutInflater.from(activity).inflate(R.layout.result_window,null);
         window.setContentView(resultWindow);
+
         final TextView resultOne = (TextView) resultWindow.findViewById(R.id.result_one);
         final TextView resultTwo = (TextView) resultWindow.findViewById(R.id.result_two);
         final TextView resultThree = (TextView) resultWindow.findViewById(R.id.result_three);
