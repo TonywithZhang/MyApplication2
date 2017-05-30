@@ -84,7 +84,7 @@ public class SearchWithPerformance extends Fragment {
     private ItemAdapter itemAdapter;
     private Random random = new Random(System.currentTimeMillis());
     private ExecutorService service;
-
+    private LinkedHashMap<String,String>  keyValue,partDetailData;
     public static LinkedHashMap<String,Integer> pictures;
 
     private int[] cars= new int[]{
@@ -112,7 +112,7 @@ public class SearchWithPerformance extends Fragment {
         view = inflater.inflate(R.layout.search_with_performance,container,false);
         activity = getActivity();
         searchWithSound  = (Button) view.findViewById(R.id.performance_listen);
-        searchWithSound.setOnClickListener(this :: recognizeThat);
+        searchWithSound.setOnClickListener(v ->recognizeThat());
         init();
         setList();
         service = Executors.newSingleThreadExecutor();
@@ -123,6 +123,39 @@ public class SearchWithPerformance extends Fragment {
     private void init() {
         items = new ArrayList<>();
         textView = (TextView) view.findViewById(R.id.textView4);
+        confirm = (FloatingActionButton) view.findViewById(R.id.check_now);
+        List<LineData> partDetailList  = DataSupport.select("partNum","x75").find(LineData.class);
+        keyValue = new LinkedHashMap<>();
+        List<String> checkedNames = new ArrayList<>();
+        partDetailList.forEach(action -> {
+            keyValue.put(action.getPartNum(),action.getX75());
+        });
+        partDetailData = new LinkedHashMap<>();
+        List<PartDetail> parts = DataSupport.select("hvacNo","partNumber").find(PartDetail.class);
+        for (PartDetail detail : parts){
+            partDetailData.put(detail.getHvacNo(),detail.getPartNumber());
+        }
+        Log.d(TAG, "init: 此时partdetaildata的长度为：" + partDetailData.size());
+        confirm.setOnClickListener(v -> {
+            String inpued = editText.getText().toString();
+            Log.d(TAG, "init: 按键被点击一次，用户输入值为" + inpued);
+            for(String string : keyValue.keySet()){
+                Log.d(TAG, "init: 此时value："  + keyValue.get(string));
+                if (keyValue.get(string).substring(0,5).equals(inpued)){
+                    checkedNames.add(string);
+                }
+            }
+            Log.d(TAG, "init: 此时得到的零件个数为：" + checkedNames.size());
+            for (String name: partDetailData.keySet()){
+                checkedNames.forEach(action ->{
+                    if (partDetailData.get(name).contains(action)){
+                        Intent intent = new Intent(activity,PartDetails.class);
+                        intent.putExtra("part_num",name);
+                        activity.startActivity(intent);
+                    }
+                });
+            }
+        });
         editText = (MultiAutoCompleteTextView) view.findViewById(R.id.check_by_performance);
         List<LineData> details = DataSupport.select("x75").find(LineData.class);
         List<String> numbers = new ArrayList<>();
@@ -203,7 +236,7 @@ public class SearchWithPerformance extends Fragment {
         return list;
     }
 
-    private void recognizeThat(View view){
+    private void recognizeThat(){
         RecognizerDialog mDialog = new RecognizerDialog(activity, initListener);
         //2.设置accent、language等参数
         mDialog.setParameter(SpeechConstant.LANGUAGE,"zh_cn");
