@@ -12,6 +12,7 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -90,6 +91,7 @@ public class SearchWithPartNumber extends Fragment {
     private ItemAdapter itemAdapter;
     private Random random = new Random(System.currentTimeMillis());
     private ExecutorService service;
+    private FloatingActionButton confirm;
 
     private int[] cars= new int[]{
             R.drawable.ic_baoma,
@@ -108,12 +110,20 @@ public class SearchWithPartNumber extends Fragment {
         textView = (TextView) view.findViewById(R.id.textView2);
         recgnize = (Button) view.findViewById(R.id.recgnize_sound);
         activity = getActivity();
-        recgnize.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recgnizeThat();
-            }
+        confirm = (FloatingActionButton) view.findViewById(R.id.check_with_number);
+        confirm.setOnClickListener(v -> {
+            Log.d(TAG, "onCreateView: 原型按键被执行一次");
+            String inputed = multiAutoCompleteTextView.getText().toString();
+            items.forEach(action ->{
+                if (action.getPartNumber().contains(inputed)){
+                    Intent intent = new Intent(activity,PartDetails.class);
+                    intent.putExtra("part_num",action.getId());
+                    activity.startActivity(intent);
+                }
+            });
+
         });
+        recgnize.setOnClickListener(v -> recgnizeThat());
 
         List<PartDetail> details = DataSupport.select("partNumber").find(PartDetail.class);
         List<String> numbers = new ArrayList<>();
