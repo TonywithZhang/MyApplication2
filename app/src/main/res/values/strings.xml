@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">泄压阀自动选型</string>
+    <string name="app_name">泄压阀</string>
     <string name="find_by_number">通过零件号查找</string>
     <string name="find_by_project_number">通过项目号查找:</string>
     <string name="find_by_performance">按照性能查找</string>
@@ -125,8 +125,8 @@
     <string name="pa">单位：Pa</string>
     <string name="image">image</string>
     <string name="dimension">零件尺寸：</string>
-    <string name="hvac_airflow_target">请输入第一个参数（HVAC airflow target）：</string>
-    <string name="unconrol_leakage_target">请输入第二个参数（Unconrol Leakage target）</string>
+    <string name="hvac_airflow_target">请输入第一个参数（HVAC airflow target @zero body L/s）：</string>
+    <string name="unconrol_leakage_target">请输入第二个参数（UnControl Leakage target @125Pa L/s）</string>
     <string name="auto_compute">自动计算结果：</string>
     <string name="auto_target">Unconrol Leakage target</string>
     <string name="airflow_target">HVAC airflow target</string>

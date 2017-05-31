@@ -51,6 +51,7 @@ public class SelectAutomation extends Fragment {
     private Activity activity;
     //视图2变量
     private View view;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -125,17 +126,23 @@ public class SelectAutomation extends Fragment {
         List<LineData> lineDatas = DataSupport.select("partNum","x75").find(LineData.class);
         //创建一个表，存储所有 75pa下的整车风量
         List<Float> performancesOn75Pa = new ArrayList<>();
+        //遍历lineData，将数据存入map和list
         for (int i = 0 ;i < lineDatas.size() ; i ++){
+            //相减得出相差值
             float resultFloat = Math.abs(Float.valueOf(lineDatas.get(i).getX75().substring(0,6)) - computeResult);
-            Log.d(TAG, "");
             resultSet.put(lineDatas.get(i).getPartNum(),resultFloat);
             performancesOn75Pa.add(resultFloat);
         }
         Log.d(TAG, "showComputedResults: 计算结果的集合的长度" + performancesOn75Pa.size()  + "字典的容量为：" + resultSet.size());
+        //排序，是相差最小的值位于最前面
         Collections.sort(performancesOn75Pa);
+        //新建列表，承载最小差值的havc值，数据库中，只有havc是独特的
         List<String> finalList = new ArrayList<>();
+        //拿到keyset，便于 遍历集合，以便于拿到hvac
         Set<String> set = resultSet.keySet();
+        //finalList中的索引值
         int x = 0;
+        //遍历map，取出与最小差值对应的nvac值
         for (String string: set){
             Log.d(TAG, "showComputedResults: 字典里的元素：" + resultSet.get(string) + "列表里的元素：" + performancesOn75Pa.get(x));
             if (resultSet.get(string).equals(performancesOn75Pa.get(0))){
@@ -143,6 +150,7 @@ public class SelectAutomation extends Fragment {
             }
             x ++;
         }
+        //如果小于三个，则再次遍历 map，取出第二小的差值对应的hvac
         if (finalList.size() < 3){
             for (String string: set){
                 if (resultSet.get(string).equals(performancesOn75Pa.get(1))){
@@ -150,6 +158,7 @@ public class SelectAutomation extends Fragment {
                 }
             }
         }
+        //如果仍小于三个，再次遍历 map  ，取出第三小的差值对应的hvac
         if (finalList.size() < 3){
             for (String string : set){
                 if (resultSet.get(string).equals(performancesOn75Pa.get(2))){
@@ -158,6 +167,7 @@ public class SelectAutomation extends Fragment {
             }
         }
         Log.d(TAG, "showComputedResults: 最终结果结合的长度" + finalList.size());
+
         List<PartDetail> finalDetails = DataSupport.select("hvacNo","partNumber","projectNumber")
                 .limit(3)
                 .where("partNumber like ? or partNumber like ? or partNumber like ?","%"+finalList.get(0) + "%","%"+finalList.get(1) + "%","%" + finalList.get(2) + "%")
@@ -167,15 +177,20 @@ public class SelectAutomation extends Fragment {
         final View resultWindow = LayoutInflater.from(activity).inflate(R.layout.result_window,null);
         window.setContentView(resultWindow);
 
+        final TextView resultDisplay = (TextView) resultWindow.findViewById(R.id.result_display);
         final TextView resultOne = (TextView) resultWindow.findViewById(R.id.result_one);
         final TextView resultTwo = (TextView) resultWindow.findViewById(R.id.result_two);
         final TextView resultThree = (TextView) resultWindow.findViewById(R.id.result_three);
         final View layout = resultWindow.findViewById(R.id.result_outside);
 
-        resultOne.setText(String.format("%s%s%s", trimFit(finalDetails.get(0).getPartNumber())," for ",finalDetails.get(0).getProjectNumber()));
-        resultTwo.setText(String.format("%s%s%s",trimFit(finalDetails.get(1).getPartNumber())," for ",finalDetails.get(1).getProjectNumber()));
-        resultThree.setText(String.format("%s%s%s",trimFit(finalDetails.get(2).getPartNumber())," for ",finalDetails.get(2).getProjectNumber()));
-        Log.d(TAG, "showComputedResults: 三个Textview的显示字符串为：" + resultOne.getText() + "," + resultTwo.getText() + "," + resultThree.getText());
+        resultDisplay.append(computeResult + "");
+        resultOne.setText(finalList.get(0));
+        resultTwo.setText(finalList.get(1));
+        resultThree.setText(finalList.get(2));
+        //resultOne.setText(String.format("%s%s%s", trimFit(finalDetails.get(0).getPartNumber())," for ",finalDetails.get(0).getProjectNumber()));
+        //resultTwo.setText(String.format("%s%s%s",trimFit(finalDetails.get(1).getPartNumber())," for ",finalDetails.get(1).getProjectNumber()));
+        //resultThree.setText(String.format("%s%s%s",trimFit(finalDetails.get(2).getPartNumber())," for ",finalDetails.get(2).getProjectNumber()));
+        //Log.d(TAG, "showComputedResults: 三个TextView的显示字符串为：" + resultOne.getText() + "," + resultTwo.getText() + "," + resultThree.getText());
         resultOne.setOnClickListener(this::showDetailPart);
         resultTwo.setOnClickListener(this::showDetailPart);
         resultThree.setOnClickListener(this::showDetailPart);
@@ -184,21 +199,25 @@ public class SelectAutomation extends Fragment {
         window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#b0808080")));
         window.setOutsideTouchable(true);
         window.setFocusable(true);
-        int maxWidth = Math.max(resultOne.getWidth(),resultTwo.getWidth());
-        maxWidth = Math.max(maxWidth,resultThree.getWidth());
+
         window.setWidth(activity.getWindow().getDecorView().getWidth());
         window.setHeight(activity.getWindow().getDecorView().getHeight());
         window.showAsDropDown(resultWindow);
         window.showAtLocation(activity.getWindow().getDecorView(), Gravity.BOTTOM,0,0);
     }
+
     private void showDetailPart(View detailView){
         String item = ((TextView)detailView).getText().toString();
-        String[] items = item.split(" ");
-        PartDetail detailPart = DataSupport.select("hvacNo").where("partNumber like ? and projectNumber=?","%" + items[0] + "%",items[2]).findFirst(PartDetail.class);
-        Intent intent = new Intent(activity, PartDetails.class);
-        intent.putExtra("part_num",detailPart.getHvacNo());
-        activity.startActivity(intent);
+        //String[] items = item.split(" ");
+        List<PartDetail> detailPart = DataSupport.select("hvacNo").where("partNumber like ?","%" + item + "%").find(PartDetail.class);
+        for (PartDetail detail : detailPart){
+            Intent intent = new Intent(activity, PartDetails.class);
+            intent.putExtra("part_num",detail.getHvacNo());
+            activity.startActivity(intent);
+        }
+
     }
+
     private void showWarn(){
         AlertDialog.Builder alert = new AlertDialog.Builder(activity)
                 .setCancelable(true)
@@ -208,6 +227,7 @@ public class SelectAutomation extends Fragment {
                 .setPositiveButton("好的", null);
         alert.show();
     }
+
     private String trimFit(String originNumber){
         if (originNumber.length() <= 8){
             return originNumber;

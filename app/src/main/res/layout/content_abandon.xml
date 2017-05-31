@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/colorAccent"
             android:background="@color/black"
             android:paddingStart="16sp"
             android:layout_width="match_parent"
@@ -54,7 +54,7 @@
             android:text="@string/pa"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -67,7 +67,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -80,7 +80,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -93,7 +93,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -106,7 +106,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -119,7 +119,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -132,7 +132,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -145,7 +145,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -158,7 +158,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -171,7 +171,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -184,7 +184,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
@@ -197,7 +197,7 @@
             android:textSize="18sp"/>
         <TextView
             android:textSize="25sp"
-            android:textColor="#E066FF"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
