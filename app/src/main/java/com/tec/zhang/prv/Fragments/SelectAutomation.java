@@ -166,7 +166,6 @@ public class SelectAutomation extends Fragment {
                 }
             }
         }
-        Log.d(TAG, "showComputedResults: 最终结果结合的长度" + finalList.size());
 
         List<PartDetail> finalDetails = DataSupport.select("hvacNo","partNumber","projectNumber")
                 .limit(3)
