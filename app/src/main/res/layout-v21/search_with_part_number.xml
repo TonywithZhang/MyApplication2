@@ -40,6 +40,7 @@
                     android:completionThreshold="1"
                     android:dropDownSelector="@drawable/ic_action_book"
                     android:id="@+id/find_by_number"
+                    android:imeOptions="actionSearch"
                     android:hint="@string/part_number"
                     />
                 <Button

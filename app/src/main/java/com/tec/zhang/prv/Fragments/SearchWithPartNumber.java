@@ -23,6 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -132,6 +133,24 @@ public class SearchWithPartNumber extends Fragment {
         multiAutoCompleteTextView = (MultiAutoCompleteTextView) view.findViewById(R.id.find_by_number);
         multiAutoCompleteTextView.setAdapter(adapter);
         multiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        multiAutoCompleteTextView.setOnKeyListener((v, keyCode, event) ->{
+            if (keyCode == KeyEvent.KEYCODE_ENTER){
+                String inputed = multiAutoCompleteTextView.getText().toString();
+                items.forEach(action ->{
+                    if (action.getPartNumber().contains(inputed)){
+                        SelectAutomation.hideSoftKeyBoard(activity);
+                        Intent intent = new Intent(activity,PartDetails.class);
+                        intent.putExtra("part_num",action.getId());
+                        activity.startActivity(intent);
+                    }
+                });
+                SelectAutomation.hideSoftKeyBoard(activity);
+                Intent intent = new Intent(activity,PartDetails.class);
+
+            }
+            return false;
+        });
+
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle);
         ExecutorService service = Executors.newSingleThreadExecutor();
@@ -144,19 +163,16 @@ public class SearchWithPartNumber extends Fragment {
                     showDetail(name);
                 }
 
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onPictureClick(final int imageView,final String carnum) {
                     final PopupWindow popupWindow = new PopupWindow(getContext());
                     final View view1 = LayoutInflater.from(getContext()).inflate(R.layout.popup_window,null);
                     final ImageView carImage = (ImageView) view1.findViewById(R.id.car_picture);
                     carImage.setImageResource(imageView);
-                    view1.setOnTouchListener(new View.OnTouchListener(){
-                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            changeOrExit(carnum,popupWindow, view1,carImage,event);
-                            return false;
-                        }
+                    view1.setOnTouchListener((v, event) -> {
+                        changeOrExit(carnum,popupWindow, view1,carImage,event);
+                        return false;
                     });
                     popupWindow.setContentView(view1);
                     popupWindow.setBackgroundDrawable(new ColorDrawable(0xb0808080));

@@ -27,6 +27,7 @@
             android:hint="@string/perfotmancce_number"
             android:inputType="numberDecimal"
             android:layout_weight="1"
+            android:imeOptions="actionSearch"
             android:fadingEdgeLength="3sp"
             android:completionThreshold="1"
             />

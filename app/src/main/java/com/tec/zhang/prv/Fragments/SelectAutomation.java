@@ -69,10 +69,6 @@ public class SelectAutomation extends Fragment {
         FloatingActionButton confirm = (FloatingActionButton) view.findViewById(R.id.auto_confirm);
         //得到以前输入的历史纪录
         List<LogInAutoCompute> autoComputes = DataSupport.findAll(LogInAutoCompute.class);
-        /**
-         * 根据书数量判断
-         * 如果不为空而且个数不等于零就执行操作
-         * */
         if (autoComputes != null && autoComputes.size() != 0){
             //拿到历史记录的长度
             int length = autoComputes.size();
@@ -86,8 +82,8 @@ public class SelectAutomation extends Fragment {
                 leakages[i]  = autoComputes.get(i).getUncontrolLeakage();
             }
             //设置两个自动填充组件的适配器
-            airflow.setAdapter(new ArrayAdapter<String>(activity,R.layout.support_simple_spinner_dropdown_item,airflows));
-            leakage.setAdapter(new ArrayAdapter<String>(activity,R.layout.support_simple_spinner_dropdown_item,leakages));
+            airflow.setAdapter(new ArrayAdapter<>(activity,R.layout.support_simple_spinner_dropdown_item,airflows));
+            leakage.setAdapter(new ArrayAdapter<>(activity,R.layout.support_simple_spinner_dropdown_item,leakages));
         }
         //设置监听器
         confirm.setOnClickListener(this::showComputedResults);

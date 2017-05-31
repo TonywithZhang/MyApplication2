@@ -22,6 +22,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -267,6 +268,17 @@ public class SearchWithProjectNumber extends Fragment {
                 intent.putExtra("part_num", name);
                 activity.startActivity(intent);
             });
+        });
+        multiAutoCompleteTextView.setOnKeyListener((v,code,event) -> {
+            if (code == KeyEvent.KEYCODE_ENTER){
+                String inputed = multiAutoCompleteTextView.getText().toString();
+                links.keySet().stream().filter(name -> links.get(name).contains(inputed)).forEach(name -> {
+                    Intent intent = new Intent(activity, PartDetails.class);
+                    intent.putExtra("part_num", name);
+                    activity.startActivity(intent);
+                });
+            }
+            return  false;
         });
     }
 
