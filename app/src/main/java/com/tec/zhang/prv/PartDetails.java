@@ -13,9 +13,11 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tec.zhang.prv.Fragments.SelectAutomation;
 import com.tec.zhang.prv.databaseUtil.LineData;
 import com.tec.zhang.prv.databaseUtil.PartDetail;
 import com.tec.zhang.prv.databaseUtil.PartDimension;
+import com.tec.zhang.prv.databaseUtil.PartMass;
 
 import org.litepal.crud.DataSupport;
 
@@ -165,6 +167,11 @@ public class PartDetails extends AppCompatActivity {
         detailProject.setText(detail.getProjectNumber());
         PartDimension dimension  = DataSupport.findFirst(PartDimension.class);
         detailDimension.setText(dimension.getLength() + " * " + dimension.getWidth() + " * " + dimension.getHeight());
+        Log.d(TAG, "setDetailText: "  + "%" + SelectAutomation.trimFit(detail.getPartNumber()) + "%");
+        PartMass mass = DataSupport.select("mass")
+                .where("partNum like ?      ","%" + SelectAutomation.trimFit(detail.getPartNumber()) + "%")
+                .findFirst(PartMass.class);
+        detailMass.setText(mass.getMass());
     }
     private void changeWithAnimation(ImageView imageview,int imageID){
         ValueAnimator animal = ValueAnimator.ofFloat(1.0f,0.0f,1.0f);

@@ -11,7 +11,7 @@
     <string name="version_code">版本号</string>
     <string name="latest_modified">最新修改日期</string>
     <string name="sond_listening">语音识别</string>
-    <string name="perfotmancce_number">请输入要查询的性能指标</string>
+    <string name="perfotmancce_number">请输入Airflow @ 75Pa</string>
     <string name="xieyafatupian">泄压阀图片</string>
     <string name="part_num">零件号：</string>
     <string name="project_num">项目号：</string>
@@ -25,7 +25,7 @@
     <string name="flap_material">橡胶片材料：</string>
     <string name="seal_material">密封圈材料：</string>
     <string name="performance_curve">性能曲线：</string>
-    <string name="mass">单个重量：</string>
+    <string name="mass">单个重量（单位g）：</string>
     <string name="l_s">单位：L/s</string>
     <string name="pa">单位：Pa</string>
     <string name="image">image</string>

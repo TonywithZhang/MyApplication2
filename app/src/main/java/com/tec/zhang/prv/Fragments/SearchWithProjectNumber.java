@@ -3,6 +3,7 @@ package com.tec.zhang.prv.Fragments;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,6 +16,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -123,12 +127,7 @@ public class SearchWithProjectNumber extends Fragment {
         dialog.setCancelable(true)
                 .setIcon(R.drawable.ic_warning_outline_white)
                 .setMessage("您要查找的项目号为" + multiAutoCompleteTextView.getText().toString())
-                .setPositiveButton("确定",new AlertDialog.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+                .setPositiveButton("确定", null)
                 .show();
     }
 
@@ -157,6 +156,31 @@ public class SearchWithProjectNumber extends Fragment {
         confirm = (FloatingActionButton) view.findViewById(R.id.confirm);
         textView = (TextView) view.findViewById(R.id.textView3);
         multiAutoCompleteTextView = (AutoCompleteTextView) view.findViewById(R.id.auto_complete);
+
+        View root = view.findViewById(R.id.root_view2);
+        root.getViewTreeObserver()
+                .addOnGlobalLayoutListener(() ->{
+                    Rect rect = new Rect();
+                    root.getWindowVisibleDisplayFrame(rect);
+                    int height = view.getRootView().getHeight() - rect.bottom;
+                    if (height  > 80){
+                        ViewCompat.animate(confirm)
+                                .translationY(-height)
+                                .setDuration(300)
+                                .setListener(null)
+                                .setInterpolator(new FastOutSlowInInterpolator())
+                                .withLayer()
+                                .start();
+                    }else {
+                        ViewCompat.animate(confirm)
+                                .translationY(0)
+                                .setInterpolator(new LinearOutSlowInInterpolator())
+                                .setDuration(300)
+                                .withLayer()
+                                .setListener(null)
+                                .start();
+                    }
+                });
         List<PartDetail> details = DataSupport.select("projectNumber").find(PartDetail.class);
         List<String> numbers = new ArrayList<>();
         for (PartDetail detail : details){

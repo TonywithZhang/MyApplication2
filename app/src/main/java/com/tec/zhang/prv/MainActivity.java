@@ -19,6 +19,7 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.tec.zhang.prv.databaseUtil.LineData;
 import com.tec.zhang.prv.databaseUtil.PartDetail;
 import com.tec.zhang.prv.databaseUtil.PartDimension;
+import com.tec.zhang.prv.databaseUtil.PartMass;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -93,6 +94,9 @@ public class MainActivity extends BaseActivity {
         }
         if (DataSupport.findAll(LineData.class).size() == 0){
             importChart();
+        }
+        if (DataSupport.findAll(PartMass.class).size() == 0){
+            importMass();
         }else Log.d(TAG, "onCreate: 数据库不为空，且长度为" + DataSupport.findAll(PartDetail.class).size());
     }
 
@@ -211,6 +215,33 @@ public class MainActivity extends BaseActivity {
                 dimension.setHeight(jsonObject.getString("height"));
                 dimension.save();
             }
+            br.close();
+            is.close();
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void importMass(){
+        try {
+            InputStream is  = getAssets().open("mass.json");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String buffer = null;
+            StringBuilder sb = new StringBuilder();
+            while((buffer = br.readLine()) != null){
+                sb.append(buffer);
+            }
+            JSONObject jsonObject = new JSONObject(sb.toString());
+            JSONArray ja = jsonObject.getJSONArray("data");
+            for (int i = 0;i < ja.length() ; i ++){
+                JSONObject mass = ja.getJSONObject(i);
+                PartMass partMass  = new PartMass();
+                partMass.setId(mass.getString("massId"));
+                partMass.setPartNum(mass.getString("PN"));
+                partMass.setMass(mass.getString("Mass"));
+                partMass.save();
+            }
+            Log.d(TAG, "importMass: 重量的条目为" + ja.length());
             br.close();
             is.close();
         } catch (IOException | JSONException e) {

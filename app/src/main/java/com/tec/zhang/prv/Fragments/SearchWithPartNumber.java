@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -18,9 +19,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -29,9 +34,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -148,9 +155,32 @@ public class SearchWithPartNumber extends Fragment {
                 Intent intent = new Intent(activity,PartDetails.class);
 
             }
+            LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.parent_layout);
+            linearLayout.getViewTreeObserver().addOnGlobalLayoutListener(() ->{
+                Log.d(TAG, "onCreateView: global监听器执行了一次");
+                Rect  rect = new Rect();
+                linearLayout.getWindowVisibleDisplayFrame(rect);
+                int height = linearLayout.getRootView().getHeight() - rect.bottom;
+                if (height > 80){
+                    ViewCompat.animate(confirm)
+                            .setListener(null)
+                            .withLayer()
+                            .translationY(-height)
+                            .setInterpolator(new FastOutSlowInInterpolator())
+                            .setDuration(300)
+                            .start();
+                }else {
+                    ViewCompat.animate(confirm)
+                            .translationY(0)
+                            .setListener(null)
+                            .withLayer()
+                            .setDuration(300)
+                            .setInterpolator(new AccelerateInterpolator())
+                            .start();
+                }
+            });
             return false;
         });
-
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle);
         ExecutorService service = Executors.newSingleThreadExecutor();
@@ -359,9 +389,7 @@ public class SearchWithPartNumber extends Fragment {
             }.start();
         }
     }
-    private void refreshList(String partName){
 
-    }
     private void showDetail(String s){
         Intent intent = new Intent(activity, PartDetails.class);
         intent.putExtra("part_num",s);

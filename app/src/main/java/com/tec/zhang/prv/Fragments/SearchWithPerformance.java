@@ -2,6 +2,7 @@ package com.tec.zhang.prv.Fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,6 +15,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -159,6 +163,31 @@ public class SearchWithPerformance extends Fragment {
         });
         recyclerView = (RecyclerView) view.findViewById(R.id.performance_list);
         confirm = (FloatingActionButton) view.findViewById(check_now);
+
+        View root = view.findViewById(R.id.root_layout);
+        root.getViewTreeObserver()
+                .addOnGlobalLayoutListener(() ->{
+                    Rect rect = new Rect();
+                    root.getWindowVisibleDisplayFrame(rect);
+                    int height = root.getRootView().getHeight() - rect.bottom;
+                    if (height > 80){
+                        ViewCompat.animate(confirm)
+                                .setDuration(300)
+                                .translationY(-height)
+                                .setInterpolator(new FastOutSlowInInterpolator())
+                                .setListener(null)
+                                .withLayer()
+                                .start();
+                    }else {
+                        ViewCompat.animate(confirm)
+                                .setDuration(300)
+                                .setListener(null)
+                                .translationY(0)
+                                .withLayer()
+                                .setInterpolator(new LinearOutSlowInInterpolator())
+                                .start();
+                    }
+                });
     }
 
     private void startInputActivity(List<String> checkedNames) {

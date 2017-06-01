@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -178,7 +179,7 @@ public class SelectAutomation extends Fragment {
         final TextView resultThree = (TextView) resultWindow.findViewById(R.id.result_three);
         final View layout = resultWindow.findViewById(R.id.result_outside);
 
-        resultDisplay.append(computeResult + "");
+        resultDisplay.append( String.format(Locale.CHINA,"%s%.2f","Control Leakage (@ 125 pa):",computeResult));
         resultOne.setText(finalList.get(0));
         resultTwo.setText(finalList.get(1));
         resultThree.setText(finalList.get(2));
@@ -223,7 +224,7 @@ public class SelectAutomation extends Fragment {
         alert.show();
     }
 
-    private String trimFit(String originNumber){
+    public static String trimFit(String originNumber){
         if (originNumber.length() <= 8){
             return originNumber;
         }
