@@ -116,6 +116,7 @@ public class SelectAutomation extends Fragment {
         autoCompute.save();
         //根据输入的值计算结果
         float  computeResult = (float) (Math.sqrt(25)/Math.sqrt(17)*inputAirflow - inputLeakage);
+        computeResult /=2;
         Log.d(TAG, "showComputedResults: " + computeResult);
         //创建一个map，key为所有的零件号，value为75pa下的整车风量
         LinkedHashMap<String,Float> resultSet = new LinkedHashMap<>();
@@ -127,8 +128,10 @@ public class SelectAutomation extends Fragment {
         for (int i = 0 ;i < lineDatas.size() ; i ++){
             //相减得出相差值
             float resultFloat = Math.abs(Float.valueOf(lineDatas.get(i).getX75().substring(0,6)) - computeResult);
-            resultSet.put(lineDatas.get(i).getPartNum(),resultFloat);
-            performancesOn75Pa.add(resultFloat);
+            if (resultFloat > 0){
+                resultSet.put(lineDatas.get(i).getPartNum(),resultFloat);
+                performancesOn75Pa.add(resultFloat);
+            }
         }
         Log.d(TAG, "showComputedResults: 计算结果的集合的长度" + performancesOn75Pa.size()  + "字典的容量为：" + resultSet.size());
         //排序，是相差最小的值位于最前面
