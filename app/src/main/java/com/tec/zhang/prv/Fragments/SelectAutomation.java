@@ -136,42 +136,88 @@ public class SelectAutomation extends Fragment {
         Log.d(TAG, "showComputedResults: 计算结果的集合的长度" + performancesOn75Pa.size()  + "字典的容量为：" + resultSet.size());
         //排序，是相差最小的值位于最前面
         Collections.sort(performancesOn75Pa);
+        Log.d(TAG, "showComputedResults: " + performancesOn75Pa);
         //新建列表，承载最小差值的havc值，数据库中，只有havc是独特的
         List<String> finalList = new ArrayList<>();
         //拿到keyset，便于 遍历集合，以便于拿到hvac
         Set<String> set = resultSet.keySet();
         //finalList中的索引值
-        int x = 0;
+        final int[] index = {0};
+        final String[] buffer = {null,null,null};
         //遍历map，取出与最小差值对应的nvac值
-        for (String string: set){
-            Log.d(TAG, "showComputedResults: 字典里的元素：" + resultSet.get(string) + "列表里的元素：" + performancesOn75Pa.get(x));
-            if (resultSet.get(string).equals(performancesOn75Pa.get(0))){
-                finalList.add(string);
-            }
-            x ++;
-        }
-        //如果小于三个，则再次遍历 map，取出第二小的差值对应的hvac
-        if (finalList.size() < 3){
-            for (String string: set){
-                if (resultSet.get(string).equals(performancesOn75Pa.get(1))){
+        if (performancesOn75Pa.size() != 0) {
+            Log.d(TAG, "showComputedResults: " + set);
+            set.stream().filter( string -> resultSet.get(string).equals(performancesOn75Pa.get(0)))
+                    .forEach(string ->{
+                        finalList.add(string);
+                        Log.d(TAG, "showComputedResults: " + string);
+                        //resultSet.remove(string);
+                        buffer[index[0]] = string;
+                        index[0]++;
+                    });
+            /*for (String string: set){
+                if (resultSet.get(string).equals(performancesOn75Pa.get(0))){
                     finalList.add(string);
+                    resultSet.remove(string);
+                    set.remove(string);
                 }
+                x ++;
+            }*/
+        }
+        if (buffer[0] != null) {
+            set.remove(buffer[0]);
+        }
+        if (buffer[1] != null){
+            set.remove(buffer[1]);
+        }
+        if (buffer[2] != null){
+            set.remove(buffer[2]);
+        }
+        index[0] = 0;
+        buffer[0] = null;
+        buffer[1] = null;
+        buffer[2] = null;
+        //如果小于三个，则再次遍历 map，取出第二小的差值对应的hvac
+        if (performancesOn75Pa.size() > 1) {
+            Log.d(TAG, "showComputedResults:" + set);
+            if (finalList.size() < 3){
+                set.stream().filter(string -> resultSet.get(string).equals(performancesOn75Pa.get(1))).forEach(string -> {
+                    finalList.add(string);
+                    Log.d(TAG, "showComputedResults: " + string);
+                    //resultSet.remove(string);
+                    buffer[index[0]] = string;
+                    index[0] ++;
+                });
             }
+        }
+        if (buffer[0] != null) {
+            set.remove(buffer[0]);
+        }
+        if (buffer[1] != null){
+            set.remove(buffer[1]);
+        }
+        if (buffer[2] != null){
+            set.remove(buffer[2]);
         }
         //如果仍小于三个，再次遍历 map  ，取出第三小的差值对应的hvac
-        if (finalList.size() < 3){
-            for (String string : set){
-                if (resultSet.get(string).equals(performancesOn75Pa.get(2))){
+        if (performancesOn75Pa.size() > 2) {
+            Log.d(TAG, "showComputedResults: " + set);
+            if (finalList.size() < 3){
+                set.stream().filter(string -> resultSet.get(string).equals(performancesOn75Pa.get(2))).forEach(string -> {
                     finalList.add(string);
-                }
+                    Log.d(TAG, "showComputedResults: " + string);
+                    //resultSet.remove(string);
+                    buffer[0] = string;
+                    Log.d(TAG, "showComputedResults: buffer:" + buffer[0] );
+                });
             }
         }
-
-        List<PartDetail> finalDetails = DataSupport.select("hvacNo","partNumber","projectNumber")
+        set.remove(buffer[0]);
+        /*List<PartDetail> finalDetails = DataSupport.select("hvacNo","partNumber","projectNumber")
                 .limit(3)
                 .where("partNumber like ? or partNumber like ? or partNumber like ?","%"+finalList.get(0) + "%","%"+finalList.get(1) + "%","%" + finalList.get(2) + "%")
                 .find(PartDetail.class);
-        Log.d(TAG, "finalList第一个元素为：" + finalList.get(0) + "第二个元素为：" + finalList.get(1) + "第三个元素为：" + finalList.get(2));
+        Log.d(TAG, "finalList第一个元素为：" + finalList.get(0) + "第二个元素为：" + finalList.get(1) + "第三个元素为：" + finalList.get(2));*/
         final PopupWindow window = new PopupWindow(activity);
         final View resultWindow = LayoutInflater.from(activity).inflate(R.layout.result_window,null);
         window.setContentView(resultWindow);
@@ -183,16 +229,34 @@ public class SelectAutomation extends Fragment {
         final View layout = resultWindow.findViewById(R.id.result_outside);
 
         resultDisplay.append( String.format(Locale.CHINA,"%s%.2f","Control Leakage (@ 125 pa):",computeResult));
-        resultOne.setText(finalList.get(0));
-        resultTwo.setText(finalList.get(1));
-        resultThree.setText(finalList.get(2));
+        if (performancesOn75Pa.size() != 0) {
+            Log.d(TAG, "showComputedResults: " + finalList.get(0));
+            resultOne.setText(finalList.get(0));
+            if (performancesOn75Pa.get(0)>= 20){
+                resultOne.setTextColor(Color.RED);
+            }
+            resultOne.setOnClickListener(this::showDetailPart);
+        }
+        if (performancesOn75Pa.size() > 1) {
+            Log.d(TAG, "showComputedResults: " + finalList.get(1));
+            resultTwo.setText(finalList.get(1));
+            if (performancesOn75Pa.get(1)> 20){
+                resultTwo.setTextColor(Color.RED);
+            }
+            resultTwo.setOnClickListener(this::showDetailPart);
+        }
+        if (performancesOn75Pa.size() > 2) {
+            Log.d(TAG, "showComputedResults: " + finalList.get(2));
+            resultThree.setText(finalList.get(2));
+            if (performancesOn75Pa.get(2)>= 20){
+                resultThree.setTextColor(Color.RED);
+            }
+            resultThree.setOnClickListener(this::showDetailPart);
+        }
         //resultOne.setText(String.format("%s%s%s", trimFit(finalDetails.get(0).getPartNumber())," for ",finalDetails.get(0).getProjectNumber()));
         //resultTwo.setText(String.format("%s%s%s",trimFit(finalDetails.get(1).getPartNumber())," for ",finalDetails.get(1).getProjectNumber()));
         //resultThree.setText(String.format("%s%s%s",trimFit(finalDetails.get(2).getPartNumber())," for ",finalDetails.get(2).getProjectNumber()));
         //Log.d(TAG, "showComputedResults: 三个TextView的显示字符串为：" + resultOne.getText() + "," + resultTwo.getText() + "," + resultThree.getText());
-        resultOne.setOnClickListener(this::showDetailPart);
-        resultTwo.setOnClickListener(this::showDetailPart);
-        resultThree.setOnClickListener(this::showDetailPart);
         layout.setOnClickListener(v-> window.dismiss());
 
         window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#b0808080")));
