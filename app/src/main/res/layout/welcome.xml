@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0sp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:orientation="horizontal"
         >
         <TextView
@@ -17,9 +17,9 @@
             android:layout_height="match_parent"
             android:layout_weight="9"/>
         <com.github.lzyzsd.circleprogress.DonutProgress
-            android:layout_height="80sp"
-            android:layout_width="80sp"
-            app:donut_background_color="@color/colorAccent"
+            android:layout_height="40sp"
+            android:layout_width="40sp"
+            app:donut_background_color="#B0B0B0B0"
             android:layout_gravity="center"
             app:donut_text="3"
             app:donut_circle_starting_degree="0"
@@ -28,22 +28,9 @@
             app:donut_finished_color="@color/colorPrimaryDark"
             app:donut_unfinished_color="#ffffff"
             android:id="@+id/donut"
-            app:donut_finished_stroke_width="3sp"
+            app:donut_finished_stroke_width="2sp"
             app:donut_unfinished_stroke_width="1sp"
             />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:layout_weight="1">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="40sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,6 +40,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/second"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="1.2">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="55sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,116 +62,131 @@
         android:layout_weight="5">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0sp"
-            android:orientation="horizontal"
-            android:layout_weight="1">
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
             <TextView
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/letter_p"
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                app:lottie_fileName="P.json"
-                app:lottie_loop="false"
-                app:lottie_autoPlay="true"/>
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/letter_a"
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                app:lottie_loop="false"
-                app:lottie_fileName="A.json"
-                app:lottie_autoPlay="true"/>
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/letter_t"
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                app:lottie_loop="false"
-                app:lottie_fileName="T.json"
-                app:lottie_autoPlay="true"/>
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/letter_a2"
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                app:lottie_loop="false"
-                app:lottie_fileName="A.json"
-                app:lottie_autoPlay="true"/>
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/letter_c"
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                app:lottie_loop="false"
-                app:lottie_fileName="C.json"
-                app:lottie_autoPlay="true"/>
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/letter_p"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    app:lottie_fileName="P.json"
+                    app:lottie_loop="false"
+                    app:lottie_autoPlay="true"/>
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/letter_a"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    app:lottie_loop="false"
+                    app:lottie_fileName="A.json"
+                    app:lottie_autoPlay="true"/>
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/letter_t"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    app:lottie_loop="false"
+                    app:lottie_fileName="T.json"
+                    app:lottie_autoPlay="true"/>
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/letter_a2"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    app:lottie_loop="false"
+                    app:lottie_fileName="A.json"
+                    app:lottie_autoPlay="true"/>
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/letter_c"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    app:lottie_loop="false"
+                    app:lottie_fileName="C.json"
+                    app:lottie_autoPlay="true"/>
 
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1">
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/letter_h"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    app:lottie_loop="false"
+                    app:lottie_fileName="H.json"
+                    app:lottie_autoPlay="true"/>
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/letter_v"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    app:lottie_loop="false"
+                    app:lottie_fileName="V.json"
+                    app:lottie_autoPlay="true"/>
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/letter_a3"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    app:lottie_loop="false"
+                    app:lottie_fileName="A.json"
+                    app:lottie_autoPlay="true"/>
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/letter_c2"
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    app:lottie_loop="false"
+                    app:lottie_fileName="C.json"
+                    app:lottie_autoPlay="true"/>
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
             <TextView
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0sp"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/letter_h"
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                app:lottie_loop="false"
-                app:lottie_fileName="H.json"
-                app:lottie_autoPlay="true"/>
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/letter_v"
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                app:lottie_loop="false"
-                app:lottie_fileName="V.json"
-                app:lottie_autoPlay="true"/>
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/letter_a3"
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                app:lottie_loop="false"
-                app:lottie_fileName="A.json"
-                app:lottie_autoPlay="true"/>
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/letter_c2"
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                app:lottie_loop="false"
-                app:lottie_fileName="C.json"
-                app:lottie_autoPlay="true"/>
-            <TextView
-                android:layout_width="0sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
         </LinearLayout>
-    </LinearLayout>
+
 </LinearLayout>
