@@ -69,7 +69,7 @@ public class SelectAutomation extends Fragment {
         leakage = (AutoCompleteTextView) view.findViewById(R.id.auto_uncontrol_leakage);
         FloatingActionButton confirm = (FloatingActionButton) view.findViewById(R.id.auto_confirm);
         //得到以前输入的历史纪录
-        List<LogInAutoCompute> autoComputes = DataSupport.findAll(LogInAutoCompute.class);
+        List<LogInAutoCompute> autoComputes = DataSupport.limit(1).find(LogInAutoCompute.class);
         if (autoComputes != null && autoComputes.size() != 0){
             //拿到历史记录的长度
             int length = autoComputes.size();
@@ -226,13 +226,13 @@ public class SelectAutomation extends Fragment {
                         Log.d(TAG, "showComputedResults: buffer:" + buffer[0] );
                     }
                 }
-                set.stream().filter(string -> resultSet.get(string).equals(performancesOn75Pa.get(2))).forEach(string -> {
+                /*set.stream().filter(string -> resultSet.get(string).equals(performancesOn75Pa.get(2))).forEach(string -> {
                     finalList.add(string);
                     Log.d(TAG, "showComputedResults: " + string);
                     //resultSet.remove(string);
                     buffer[0] = string;
                     Log.d(TAG, "showComputedResults: buffer:" + buffer[0] );
-                });
+                });*/
             }
         }
         set.remove(buffer[0]);
