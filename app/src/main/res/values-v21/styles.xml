@@ -14,4 +14,12 @@
     <style name="flowing" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <item name="elasticDrawerStyle">@style/Widget.AppCompat.DrawerArrowToggle</item>
     </style>
+
+    <style name="GreyStyle" parent="android:Theme.Holo.Light">
+        <item name="colorAccent">#b0b0b0b0</item>
+        <item name="colorPrimaryDark">#b0b0b0b0</item>
+        <item name="colorPrimary">#b0b0b0b0</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
 </resources>

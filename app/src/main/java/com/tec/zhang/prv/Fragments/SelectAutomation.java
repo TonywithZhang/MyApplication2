@@ -147,22 +147,23 @@ public class SelectAutomation extends Fragment {
         //遍历map，取出与最小差值对应的nvac值
         if (performancesOn75Pa.size() != 0) {
             Log.d(TAG, "showComputedResults: " + set);
-            set.stream().filter( string -> resultSet.get(string).equals(performancesOn75Pa.get(0)))
+            /*set.stream().filter( string -> resultSet.get(string).equals(performancesOn75Pa.get(0)))
                     .forEach(string ->{
                         finalList.add(string);
                         Log.d(TAG, "showComputedResults: " + string);
                         //resultSet.remove(string);
                         buffer[index[0]] = string;
                         index[0]++;
-                    });
-            /*for (String string: set){
+                    });*/
+            for (String string: set){
                 if (resultSet.get(string).equals(performancesOn75Pa.get(0))){
                     finalList.add(string);
-                    resultSet.remove(string);
-                    set.remove(string);
+                    Log.d(TAG, "showComputedResults: " + string);
+                    //resultSet.remove(string);
+                    buffer[index[0]] = string;
+                    index[0]++;
                 }
-                x ++;
-            }*/
+            }
         }
         if (buffer[0] != null) {
             set.remove(buffer[0]);
@@ -181,13 +182,22 @@ public class SelectAutomation extends Fragment {
         if (performancesOn75Pa.size() > 1) {
             Log.d(TAG, "showComputedResults:" + set);
             if (finalList.size() < 3){
-                set.stream().filter(string -> resultSet.get(string).equals(performancesOn75Pa.get(1))).forEach(string -> {
+                for (String string : set){
+                    if (resultSet.get(string).equals(performancesOn75Pa.get(1))){
+                        finalList.add(string);
+                        Log.d(TAG, "showComputedResults: " + string);
+                        //resultSet.remove(string);
+                        buffer[index[0]] = string;
+                        index[0] ++;
+                    }
+                }
+                /*set.stream().filter(string -> resultSet.get(string).equals(performancesOn75Pa.get(1))).forEach(string -> {
                     finalList.add(string);
                     Log.d(TAG, "showComputedResults: " + string);
                     //resultSet.remove(string);
                     buffer[index[0]] = string;
                     index[0] ++;
-                });
+                });*/
             }
         }
         if (buffer[0] != null) {
@@ -199,10 +209,23 @@ public class SelectAutomation extends Fragment {
         if (buffer[2] != null){
             set.remove(buffer[2]);
         }
+        index[0] = 0;
+        buffer[0] = null;
+        buffer[1] = null;
+        buffer[2] = null;
         //如果仍小于三个，再次遍历 map  ，取出第三小的差值对应的hvac
         if (performancesOn75Pa.size() > 2) {
             Log.d(TAG, "showComputedResults: " + set);
             if (finalList.size() < 3){
+                for (String string : set){
+                    if (resultSet.get(string).equals(performancesOn75Pa.get(2))){
+                        finalList.add(string);
+                        Log.d(TAG, "showComputedResults: " + string);
+                        //resultSet.remove(string);
+                        buffer[0] = string;
+                        Log.d(TAG, "showComputedResults: buffer:" + buffer[0] );
+                    }
+                }
                 set.stream().filter(string -> resultSet.get(string).equals(performancesOn75Pa.get(2))).forEach(string -> {
                     finalList.add(string);
                     Log.d(TAG, "showComputedResults: " + string);

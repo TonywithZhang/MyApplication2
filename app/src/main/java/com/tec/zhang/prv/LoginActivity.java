@@ -2,6 +2,8 @@ package com.tec.zhang.prv;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -10,9 +12,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -52,6 +58,14 @@ public class LoginActivity extends BaseActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setLogo(R.drawable.ic_logo);
         actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(0xffffffff));
+        SpannableString ss = new SpannableString("泄压阀");
+        ss.setSpan(new ForegroundColorSpan(Color.BLACK),0,3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        actionBar.setTitle(new SpannableString(ss));
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         header = (CircleImageView) findViewById(R.id.circleImageView);
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         userName = (EditText) findViewById(R.id.editText);
@@ -80,6 +94,7 @@ public class LoginActivity extends BaseActivity {
                 ad.setUserName(account);
                 ad.setPassWord(pass);
                 ad.setRemenber(checkBox.isChecked());
+                ad.save();
                 ActivityOptionsCompat compat = ActivityOptionsCompat.makeScaleUpAnimation(login,login.getWidth()/2,login.getHeight()/2,0,0);
                 ActivityCompat.startActivity(LoginActivity.this,new Intent(LoginActivity.this,Search.class),compat.toBundle());
             }else {
