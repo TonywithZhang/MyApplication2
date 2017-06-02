@@ -28,7 +28,7 @@
                 android:layout_width="80sp"
                 android:layout_height="80sp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_asmd"
+                android:src="@drawable/ic_logo"
                 android:id="@+id/circleImageView" />
 
             <TextView
@@ -96,6 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="14dp"
+                app:elevation="5sp"
                 android:id="@+id/floatingActionButton"
                 android:src="@drawable/ic_arrow_forward"
                 android:layout_below="@+id/editText2"

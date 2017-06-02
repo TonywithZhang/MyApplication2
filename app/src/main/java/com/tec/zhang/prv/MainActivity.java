@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.dalong.countdownview.CountDownView;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.tec.zhang.prv.databaseUtil.Accounts;
 import com.tec.zhang.prv.databaseUtil.LineData;
 import com.tec.zhang.prv.databaseUtil.PartDetail;
 import com.tec.zhang.prv.databaseUtil.PartDimension;
@@ -97,6 +98,8 @@ public class MainActivity extends BaseActivity {
         }
         if (DataSupport.findAll(PartMass.class).size() == 0){
             importMass();
+        }if(DataSupport.findAll(Accounts.class).size() == 0){
+            importAccount();
         }else Log.d(TAG, "onCreate: 数据库不为空，且长度为" + DataSupport.findAll(PartDetail.class).size());
     }
 
@@ -114,7 +117,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onFinish() {
                 donutProgress.setVisibility(View.GONE);
-                Intent intent = new Intent(MainActivity.this,Search.class);
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                 startActivity(intent);
             }
         }.start();
@@ -242,6 +245,30 @@ public class MainActivity extends BaseActivity {
                 partMass.save();
             }
             Log.d(TAG, "importMass: 重量的条目为" + ja.length());
+            br.close();
+            is.close();
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void importAccount(){
+        try {
+            InputStream is = getAssets().open("names.json");
+            StringBuilder sb = new StringBuilder();
+            String buffer = null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            while ((buffer = br.readLine()) != null){
+                sb.append(buffer);
+            }
+            JSONObject  jo  = new JSONObject(sb.toString());
+            JSONArray ja = jo.getJSONArray("data");
+            for (int i = 0; i < ja.length() ; i ++){
+                JSONObject json = ja.getJSONObject(i);
+                Accounts accounts  = new Accounts();
+                accounts.setUserName(json.getString("name"));
+                accounts.setPassWord(json.getString("pass"));
+                accounts.save();
+            }
             br.close();
             is.close();
         } catch (IOException | JSONException e) {
