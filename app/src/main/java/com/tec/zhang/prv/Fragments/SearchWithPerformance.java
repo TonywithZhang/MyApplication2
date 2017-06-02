@@ -201,13 +201,20 @@ public class SearchWithPerformance extends Fragment {
         }
         Log.d(TAG, "init: 此时得到的零件个数为：" + checkedNames.size());
         for (String name: partDetailData.keySet()){
-            checkedNames.forEach(action ->{
+            for (String string : checkedNames){
+                if (partDetailData.get(name).contains(string)){
+                    Intent intent = new Intent(activity,PartDetails.class);
+                    intent.putExtra("part_num",name);
+                    activity.startActivity(intent);
+                }
+            }
+            /*checkedNames.forEach(action ->{
                 if (partDetailData.get(name).contains(action)){
                     Intent intent = new Intent(activity,PartDetails.class);
                     intent.putExtra("part_num",name);
                     activity.startActivity(intent);
                 }
-            });
+            });*/
         }
     }
 

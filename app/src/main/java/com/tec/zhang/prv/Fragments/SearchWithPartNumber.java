@@ -118,13 +118,20 @@ public class SearchWithPartNumber extends Fragment {
         confirm.setOnClickListener(v -> {
             Log.d(TAG, "onCreateView: 原型按键被执行一次");
             String inputed = multiAutoCompleteTextView.getText().toString();
-            items.forEach(action ->{
+            for(int i = 0 ; i < items.size(); i ++){
+                if (items.get(i).getPartNumber().contains(inputed)){
+                    Intent intent = new Intent(activity,PartDetails.class);
+                    intent.putExtra("part_num",items.get(i).getId());
+                    activity.startActivity(intent);
+                }
+            }
+            /*items.forEach(action ->{
                 if (action.getPartNumber().contains(inputed)){
                     Intent intent = new Intent(activity,PartDetails.class);
                     intent.putExtra("part_num",action.getId());
                     activity.startActivity(intent);
                 }
-            });
+            });*/
 
         });
         recgnize.setOnClickListener(v -> recgnizeThat());
@@ -132,7 +139,7 @@ public class SearchWithPartNumber extends Fragment {
         List<PartDetail> details = DataSupport.select("partNumber").find(PartDetail.class);
         List<String> numbers = new ArrayList<>();
         for (PartDetail detail : details){
-            numbers.add(detail.getPartNumber());
+            numbers.add(SelectAutomation.trimFit(detail.getPartNumber()));
         }
         String[] columns = new String[details.size()];
         numbers.toArray(columns);

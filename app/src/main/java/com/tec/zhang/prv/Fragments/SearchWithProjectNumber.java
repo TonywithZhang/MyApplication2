@@ -285,14 +285,27 @@ public class SearchWithProjectNumber extends Fragment {
             Item item  = new Item(detail.getHvacNo(),detail.getPartNumber() + " for " + detail.getProjectNumber(),"供应商：\n" + detail.getSupplier(),"工程成本：\n" + detail.getEngineeringCost(),selectPic(detail.getPartNumber()));
             items.add(item);
         }
-        confirm.setOnClickListener(v ->{
+        confirm.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+                                           String inputed = multiAutoCompleteTextView.getText().toString();
+                                           for (String string : links.keySet()){
+                                               if (links.get(string).contains(inputed)){
+                                                   Intent intent = new Intent(activity, PartDetails.class);
+                                                   intent.putExtra("part_num", string);
+                                                   activity.startActivity(intent);
+                                               }
+                                           }
+                                       }
+                                   }
+                /*v ->{
             String inputed = multiAutoCompleteTextView.getText().toString();
             links.keySet().stream().filter(name -> links.get(name).contains(inputed)).forEach(name -> {
                 Intent intent = new Intent(activity, PartDetails.class);
                 intent.putExtra("part_num", name);
                 activity.startActivity(intent);
             });
-        });
+        }*/);
         multiAutoCompleteTextView.setOnKeyListener((v,code,event) -> {
             if (code == KeyEvent.KEYCODE_ENTER){
                 String inputed = multiAutoCompleteTextView.getText().toString();
