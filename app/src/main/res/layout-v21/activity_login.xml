@@ -100,7 +100,6 @@
                 android:layout_marginEnd="14dp"
                 app:elevation="5sp"
                 android:id="@+id/floatingActionButton"
-
                 android:src="@drawable/ic_done_black_48dp"
                 android:layout_below="@+id/editText2"
                 android:layout_alignParentEnd="true" />
@@ -111,7 +110,6 @@
                 android:text=""
                 android:maxLines="2"
                 android:textColor="#ff0000"
-
                 android:id="@+id/notice"
                 android:layout_alignParentBottom="true"
                 android:layout_alignStart="@+id/checkBox" />

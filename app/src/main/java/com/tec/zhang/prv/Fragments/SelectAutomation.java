@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -69,19 +70,28 @@ public class SelectAutomation extends Fragment {
         leakage = (AutoCompleteTextView) view.findViewById(R.id.auto_uncontrol_leakage);
         FloatingActionButton confirm = (FloatingActionButton) view.findViewById(R.id.auto_confirm);
         //得到以前输入的历史纪录
-        List<LogInAutoCompute> autoComputes = DataSupport.limit(1).find(LogInAutoCompute.class);
+        List<LogInAutoCompute> autoComputes = DataSupport.findAll(LogInAutoCompute.class);
         if (autoComputes != null && autoComputes.size() != 0){
             //拿到历史记录的长度
             int length = autoComputes.size();
             //第一个参数的历史纪录所组成成的数组
-            String[] airflows = new String[length];
+            LinkedHashSet<String> airflowSet  = new LinkedHashSet<>();
+            String[] airflows = null;
             //第二个参数的历史纪录组成的数组
-            String[] leakages = new String[length];
+            LinkedHashSet<String> leakageSet  = new LinkedHashSet<>();
+            String[] leakages = null;
             //遍历拿到的集合，将历史纪录 依次装填进创建的两个数组
             for (int i = 0; i < length ; i ++){
-                airflows[i] = autoComputes.get(i).getAirFlow();
-                leakages[i]  = autoComputes.get(i).getUncontrolLeakage();
+                LogInAutoCompute autoCompute = autoComputes.get(i);
+                airflowSet.add(autoCompute.getAirFlow());
+                leakageSet.add(autoCompute.getUncontrolLeakage());
+                //airflows[i] = autoComputes.get(i).getAirFlow();
+                //leakages[i]  = autoComputes.get(i).getUncontrolLeakage();
             }
+            airflows = new  String[airflowSet.size()];
+            leakages = new String[leakageSet.size()];
+            airflowSet.toArray(airflows);
+            leakageSet.toArray(leakages);
             //设置两个自动填充组件的适配器
             airflow.setAdapter(new ArrayAdapter<>(activity,R.layout.support_simple_spinner_dropdown_item,airflows));
             leakage.setAdapter(new ArrayAdapter<>(activity,R.layout.support_simple_spinner_dropdown_item,leakages));
@@ -251,7 +261,7 @@ public class SelectAutomation extends Fragment {
         final TextView resultThree = (TextView) resultWindow.findViewById(R.id.result_three);
         final View layout = resultWindow.findViewById(R.id.result_outside);
 
-        resultDisplay.append( String.format(Locale.CHINA,"%s%.2f","Control Leakage (@ 125 pa):",computeResult));
+        resultDisplay.append( String.format(Locale.CHINA,"%s%.2f","Control Leakage (@ 125 pa):",computeResult * 2));
         if (performancesOn75Pa.size() != 0) {
             Log.d(TAG, "showComputedResults: " + finalList.get(0));
             resultOne.setText(finalList.get(0));
@@ -301,7 +311,6 @@ public class SelectAutomation extends Fragment {
             intent.putExtra("part_num",detail.getHvacNo());
             activity.startActivity(intent);
         }
-
     }
 
     private void showWarn(){
