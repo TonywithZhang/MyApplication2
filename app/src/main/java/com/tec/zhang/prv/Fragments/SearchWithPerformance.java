@@ -88,6 +88,7 @@ public class SearchWithPerformance extends Fragment {
     private List<Item> items;
     private ItemAdapter itemAdapter;
     private Random random = new Random(System.currentTimeMillis());
+    private LinkedHashMap<String,Integer> rowPics;
 
     private LinkedHashMap<String,String>  keyValue,partDetailData;
     public static LinkedHashMap<String,Integer> pictures;
@@ -226,11 +227,11 @@ public class SearchWithPerformance extends Fragment {
             }
 
             @Override
-            public void onPictureClick(final int imageView,final String carnum) {
+            public void onPictureClick(final String name,final String carnum) {
                 final PopupWindow popupWindow = new PopupWindow(getContext());
                 final View view = LayoutInflater.from(getContext()).inflate(R.layout.popup_window,null);
                 final ImageView carImage = (ImageView) view.findViewById(R.id.car_picture);
-                carImage.setImageResource(imageView);
+                carImage.setImageResource(selectRowPic(name));
                 view.setOnTouchListener(new View.OnTouchListener(){
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
@@ -374,6 +375,20 @@ public class SearchWithPerformance extends Fragment {
     }
 
     private void initData(){
+        rowPics = new LinkedHashMap<>();
+        rowPics.put("p5492105",R.drawable.p5492105);
+        rowPics.put("p9076499",R.drawable.p9076499);
+        rowPics.put("p13502347",R.drawable.p13502347);
+        rowPics.put("p13502348",R.drawable.p13502348);
+        rowPics.put("p13588034",R.drawable.p13588034);
+        rowPics.put("p13502349",R.drawable.p13502349);
+        rowPics.put("p13597326",R.drawable.p13597326);
+        rowPics.put("p22788177",R.drawable.p22788177);
+        rowPics.put("p26204448",R.drawable.p26204448);
+        rowPics.put("p26265005",R.drawable.p26265005);
+        rowPics.put("p26689931",R.drawable.p26689931);
+        rowPics.put("p90921822",R.drawable.p90921822);
+
         pictures = new LinkedHashMap<>();
         pictures.put("prv5492105",R.drawable.ic_prv5492105);
         pictures.put("prv9076499",R.drawable.ic_prv9076499);
@@ -386,9 +401,11 @@ public class SearchWithPerformance extends Fragment {
         pictures.put("prv26204448",R.drawable.ic_prv26204448);
         pictures.put("prv26265005",R.drawable.ic_prv26265005);
         pictures.put("prv90921822",R.drawable.ic_prv90921822);
+        pictures.put("prv26689931",R.drawable.ic_prv26689931);
+
+        pictures.put("prv26689931s",R.drawable.ic_prv26689931s);
         pictures.put("prv5492105s",R.drawable.ic_prv5492105s);
         pictures.put("prv9076499s",R.drawable.ic_prv9076499s);
-
         pictures.put("prv13502347s",R.drawable.ic_prv13502347s);
         pictures.put("prv13502348s",R.drawable.ic_prv13502348s);
         pictures.put("prv13502349s",R.drawable.ic_prv13502349s);
@@ -409,6 +426,21 @@ public class SearchWithPerformance extends Fragment {
     }
 
     private int selectPic(String name){
+        for (String picName :rowPics.keySet()){
+            if (picName.contains(name)) return rowPics.get(picName);
+        }
+        /*for (String picName : pictures.keySet()){
+            if (picName.contains(name)){
+                return pictures.get(picName);
+            }
+        }*/
+        Log.d(TAG, "selectPic: " + name);
+        return cars[random.nextInt(5)];
+    }
+    private int selectRowPic(String name){
+        if (name.length() > 8){
+            name = name.substring(0,8);
+        }
         for (String picName : pictures.keySet()){
             if (picName.contains(name)){
                 return pictures.get(picName);

@@ -108,6 +108,9 @@ public class PartDetails extends AppCompatActivity {
         pictures.put("prv26204448",R.drawable.ic_prv26204448);
         pictures.put("prv26265005",R.drawable.ic_prv26265005);
         pictures.put("prv90921822",R.drawable.ic_prv90921822);
+        pictures.put("prv26689931",R.drawable.ic_prv26689931);
+
+        pictures.put("prv26689931s",R.drawable.ic_prv26689931s);
         pictures.put("prv5492105s",R.drawable.ic_prv5492105s);
         pictures.put("prv9076499s",R.drawable.ic_prv9076499s);
         pictures.put("prv13502347s",R.drawable.ic_prv13502347s);

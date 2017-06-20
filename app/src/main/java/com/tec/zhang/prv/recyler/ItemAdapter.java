@@ -1,6 +1,9 @@
 package com.tec.zhang.prv.recyler;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,7 +55,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void onBindViewHolder(final ItemViewHolder holder, int position) {
         final Item item = items.get(position);
         //Glide.with(context).load(item.getItemImage()).into(holder.getCircleImageView());
-        holder.getCircleImageView().setImageResource(item.getItemImage());
+        //Glide.with(context).load(item.getItemImage()).into(holder.getCircleImageView());
+        Bitmap bitmap = decodeSampleBitmapFromResource(context.getResources(),item.getItemImage(),80,80);
+        holder.getCircleImageView().setImageBitmap(bitmap);
         holder.getItemName().setText(item.getPartNumber());
         holder.getItemVersion().setText(item.getVersion());
         holder.getItemModified().setText(item.getLastModified());
@@ -60,7 +65,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.getCircleImageView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemsClickListener.onPictureClick(item.getItemImage(),item.getPartNumber());
+                    onItemsClickListener.onPictureClick(item.getPartNumber(),item.getPartNumber());
                 }
             });
             holder.getItemName().setOnClickListener(new View.OnClickListener() {
@@ -160,8 +165,30 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public interface OnItemsClickListener{
         void onItemClick(String partNum);
         void onNameClick(String name);
-        void onPictureClick(int imageView,String number);
+        void onPictureClick(String name,String number);
         void onVersionClick(String version);
         void onDateClick(String date);
+    }
+
+    private int calculateInSampleSize(BitmapFactory.Options options,int requiredWidth,int requiredHeight){
+        final int height = options.outHeight;
+        final int width = options.outHeight;
+        int inSampleSize = 1;
+        if (height > requiredHeight || width > requiredWidth){
+            final int heightRatio = Math.round((float) height/(float) requiredHeight);
+            final int widthRatio = Math.round((float)width/(float)requiredWidth);
+            inSampleSize = heightRatio > widthRatio ? widthRatio : heightRatio;
+        }
+        Log.d(TAG, "calculateInSampleSize: " + inSampleSize);
+        return inSampleSize;
+
+    }
+    private Bitmap decodeSampleBitmapFromResource(Resources resources,int resId,int requiredWidth,int requiredHeight){
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(resources,resId,options);
+        options.inSampleSize = calculateInSampleSize(options,requiredWidth,requiredHeight);
+        options.inJustDecodeBounds =false;
+        return BitmapFactory.decodeResource(resources,resId,options);
     }
 }

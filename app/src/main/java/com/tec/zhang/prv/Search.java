@@ -60,6 +60,7 @@ public class Search extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_sample);
+
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=590daa60");
         toolbar = (Toolbar) findViewById(R.id.toolbar1);
         setSupportActionBar(toolbar);
