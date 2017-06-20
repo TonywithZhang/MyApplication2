@@ -171,7 +171,11 @@ public class PartDetails extends AppCompatActivity {
         PartMass mass = DataSupport.select("mass")
                 .where("partNum like ?      ","%" + SelectAutomation.trimFit(detail.getPartNumber()) + "%")
                 .findFirst(PartMass.class);
-        detailMass.setText(mass.getMass());
+
+        if (mass != null){
+            detailMass.setText(mass.getMass());
+        }
+
     }
     private void changeWithAnimation(ImageView imageview,int imageID){
         ValueAnimator animal = ValueAnimator.ofFloat(1.0f,0.0f,1.0f);
