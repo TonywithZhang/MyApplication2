@@ -133,7 +133,6 @@ public class SearchWithPartNumber extends Fragment {
                     activity.startActivity(intent);
                 }
             });*/
-
         });
         recgnize.setOnClickListener(v -> recgnizeThat());
 
