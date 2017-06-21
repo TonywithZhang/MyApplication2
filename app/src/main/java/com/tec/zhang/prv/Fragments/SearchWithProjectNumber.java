@@ -350,7 +350,7 @@ public class SearchWithProjectNumber extends Fragment {
     }
     private int selectRowPic(String name){
         if (name.length() > 8){
-            name = name.substring(0,8);
+            name = name.substring(0,name.indexOf(" "));
         }
         for (String picName : pictures.keySet()){
             if (picName.contains(name)){
